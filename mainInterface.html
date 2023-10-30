@@ -1,1 +1,73 @@
-!
+<!DOCTYPE html>
+<html lang="en">
+    <head class="head">
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./src/frameworks/bootstrap-icons.css">
+        <script src="./src/frameworks/jquery-3.7.1.min.js" ></script>
+        <link rel="stylesheet" href="./src/css/style.css">
+        <script src="./src/js/main.js" defer></script>
+    
+        <title>Main</title>
+    </head>
+<body>
+    <section class="">
+        <div class="main-hero">
+            <img src="./src/image/logo.png" alt="" class="main-image">
+            <p class="hero-lead">Hi there, how can i assist you today ?</p>
+        </div>
+        <div class="prompt-example-container">
+            <div class="prompt-example">
+                <p>Tell me more about you</p>
+                <i class="bi bi-caret-right"></i>
+            </div>
+        </div>
+        <div class="user-input-container">
+            <input type="text" class="user-input" placeholder="Type something ...">
+            <i class="bi bi-arrow-right"></i>
+        </div>
+    </section>
+    <section class="bot-customisation">
+        <h1 class="customisation-title">Bot customisations</h1>
+        <div class="customisation-card-container">
+            <div class="customisation-card">
+                <div class="customisation-icon">
+                    <i class="bi bi-brightness-high"></i>
+                </div>
+                <div class="text-container">
+                    <h2 class="text-container-title">Weather API</h2>
+                    <p class="customisation-desc">Check the weather in your country</p>
+                </div>
+                <button class="btn">Try it</button>
+            </div>
+            <div class="customisation-card">
+                <div class="customisation-icon">
+                    <i class="bi bi-robot"></i>
+                </div>
+                <div class="text-container">
+                    <h2 class="text-container-title">Problem solver</h2>
+                    <p class="customisation-desc">Assist you throughout your work</p>
+                </div>
+                <button class="btn">Try it</button>
+            </div>
+        </div>
+    </section>
+    <section class="moving-part">
+        <div class="user-item-container">
+            <p class="user-abbreviation">R</p>
+            <i class="bi bi-gear user-setting"></i>
+            <i class="bi bi-box-arrow-right user-logout"></i>
+            <button class="new-chat btn">
+                <i class="bi bi-plus-lg user-item-icon"></i>
+                    New chat
+            </button>
+            <button class="chat-history btn">
+                <i class="bi bi-clock-history user-item-icon"></i>
+                    Chat history
+            </button>
+        </div>
+    </section>
+
+</body>
+</html>
