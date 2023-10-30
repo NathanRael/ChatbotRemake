@@ -1,0 +1,232 @@
+/**************root*********************/
+:root{
+    --title-fs : 34px;
+    --body-fs : 18px;
+    --leads-fs : 20px;
+    --sub-heading : 26px;
+    --link-fs : 16px;
+    --body-secondary-fs : 14px;
+
+    --primary-color : #2F414F;
+    --secondary-color : #3894A3;
+    --third-color :   #C7DAD4;
+    --text-color : #F1F1EF;
+    --alert-color : #DD4238;
+    --success-color : #3AA338;
+    --input-color : #25323D;
+    --black-color : #121414;
+
+}
+
+@font-face {
+    font-family: "roboto-medium";
+    src: url('../fonts/Roboto-Medium.ttf');
+}
+@font-face {
+    font-family: "roboto-regular";
+    src: url('../fonts/Roboto-Regular.ttf');
+}
+@font-face {
+    font-family: "roboto-bold";
+    src: url('../fonts/Roboto-Bold.ttf');
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'roboto-regular';
+}
+
+body{
+    background-color: var(--primary-color);
+    padding: 0 32px;
+    overflow-x: hidden;
+}
+
+body::-webkit-scrollbar{
+    display: none;
+}
+
+.btn, .btn-outlined{
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    font-size: var(--body);
+    padding: 16px 32px;
+    border: solid 1px var(--secondary-color);
+    border-radius: 32px;
+    font-family: 'roboto-medium';
+    text-decoration: none;
+}
+
+.btn-outlined{
+    background-color: transparent;
+}
+
+/**********header*******/
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+}
+
+.logo{
+    width: 110px;
+    height: 47px;
+}
+
+.btn-login{
+    font-size: var(--body-secondary-fs);
+}
+
+.hero{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 128px;
+}
+
+.hero-left{
+    display: flex;
+    flex-direction: column;
+    
+    width: 704px;
+}
+
+.hero-text-container{
+    margin-bottom: 48px;
+}
+
+.hero-title, .form-title{
+    font-family: 'roboto-medium';
+    letter-spacing:0.1em;
+    font-size: var(--title-fs);
+    color: var(--text-color);
+    margin-bottom: 24px;
+}
+
+.hero-lead{
+    font-family: 'roboto-regular';
+    font-size: var(--leads-fs);
+    color: var(--text-color);
+}
+
+.hero-btn-contrainer{
+    display: flex;
+    width: 100%;
+    justify-content: start;
+}
+
+.hero-btn-contrainer .btn{
+    margin-right: 40px;
+}
+
+.hero-image{
+    width: 377px;
+    height: 348px;
+}
+
+/***login & signup ***/
+.fade-field{
+    display: none;
+    position: absolute;
+    top :0;
+    left:0;
+    background-color: rgba(18, 20, 20, 0.5);
+    width: 100%;
+    height: 100vh;
+}
+.login-popup, .signup-popup{
+    position: absolute;
+    top:0;
+    right: -524px;
+    width: 512px;
+    height: 100vh;
+    padding: 32px;
+    background-color: var(--input-color);
+    background-image: url('../image/login-style.svg');
+    background-repeat: no-repeat;
+    background-size: 512px;
+    border-radius: 32px 0 0 32px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    /* transition: all 0.3s ease-out; */
+}
+
+
+.login-style{
+    width: 512px;
+}
+
+.form-title{
+    font-family: 'roboto-regular';
+    font-size: var(--sub-heading);
+    margin-top: 72px;
+    text-align: center;
+    margin-bottom: 128px;
+
+}
+
+.login-popup .input-group, .signup-popup .input-group{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    row-gap: 24px;
+    width: 384px;
+    margin-bottom: 40px;
+}
+
+.input-group .input-item{
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+
+}
+
+.form-input{
+    outline: 0;
+    background-color: transparent;
+    border: solid 1px var(--text-color);
+    border-radius: 32px;
+    padding: 16px 32px;
+    font-size: var(--body-fs);
+    color: var(--text-color);
+}
+
+.form-input::placeholder{
+    color: var(--text-color);
+}
+
+.link{
+    font-size: var(--link-fs);
+    color:var(--third-color);
+    text-decoration: none;
+    margin-left: 24px;
+}
+
+.btn-group{
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    width: 384px;
+    row-gap: 16px;
+}
+
+.Or{
+    color: var(--text-color);
+    font-size: var(--body-fs);
+    text-align: center;
+}
+
+/**********media query**********/
+
+@media screen and (max-width : 1366px) {
+    .signup-popup, .fade-field{
+        height: 110vh;
+
+    }
+}
