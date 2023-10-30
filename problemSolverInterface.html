@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./src/frameworks/bootstrap-icons.css">
+    <script src="./src/frameworks/jquery-3.7.1.min.js" ></script>
+    <link rel="stylesheet" href="./src/css/style.css">
+    <script src="./src/js/main.js" defer></script>
+
+    <title>Chatting</title>
+</head>
+<body>
+
+    <div class="btn-previous-container">
+        <a href="/mainInterface.html" class="btn-previous"><i class="bi bi-arrow-left"></i></a>     
+    </div>
+    <div class="user-reply">
+        <p class="user-reply-abbreviation">R</p>
+        <div class="user-text">
+            Hello, can you tell me more about you ?
+        </div>
+    </div>
+    <div class="bot-reply">
+        <!-- <p class="bot-reply-abbreviation">R</p> -->
+        <img src="./src/image/logo.png" alt="" width="125px">
+        <div class="bot-text">
+            <p class="text-down">
+                For sur, I’m a chatBot, named as rael,
+                that can help you throughout your work.
+            </p>
+            <p class="text-down">My creator is Natanael RALAIVOAVY</p>
+            <p class="text-down">Anyway, note that I’m just a beta version , so myknowledge is still limited :)</p>
+            <p class="text-down">if you have any further question, I’m here to help you.</p>
+
+        </div>
+    </div>
+    <div class="user-input-container bottom-input">
+        <input type="text" class="user-input" placeholder="Type something ...">
+        <a href="/problemSolverInterface.html" class="link"><i class="bi bi-arrow-right"></i></a>
+    </div>
+    <section class="bottom-moving-part">
+        <div class="user-item-container">
+            <p class="user-abbreviation">R</p>
+            <i class="bi bi-gear user-setting"></i>
+            <i class="bi bi-box-arrow-right user-logout"></i>
+            <button class="new-chat btn">
+                <i class="bi bi-plus-lg user-item-icon"></i>
+                    New chat
+            </button>
+            <button class="chat-history btn">
+                <i class="bi bi-clock-history user-item-icon"></i>
+                    Chat history
+            </button>
+        </div>
+    </section>
+</body>
+</html>

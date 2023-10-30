@@ -384,12 +384,16 @@ body::-webkit-scrollbar{
     top: 50%;
     right: 0;
     transform: translateY(-50%);
-    
+    background-color: transparent;
+    border: solid 1px var(--secondary-color);
 }
 .user-setting{
+    
     top: 50%;
     left: 0;
     transform: translateY(-50%);
+    background-color: transparent;
+    border: solid 1px var(--secondary-color);
 }
 
 .user-item-icon{
@@ -401,6 +405,73 @@ body::-webkit-scrollbar{
     bottom: 0;
 }
 
+/*********ProblemSolver*************/
+
+.btn-previous-container{
+    margin: 16px 0;
+}
+.btn-previous{
+    color: var(--text-color);
+    font-size: 24px;
+}
+
+.user-reply, .bot-reply{
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    color: var(--text-color);
+    margin-bottom: 16px;
+}
+
+.user-reply-abbreviation, .bot-reply-abbreviation{
+    background-color: var(--third-color);
+    width: 52px;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--primary-color);
+    border-radius: 32px;
+    font-size: var(--leads-fs);
+}
+
+.user-text, .bot-text{
+    margin-left: 64px;
+    background-color: var(--input-color);
+    width: fit-content;
+    padding: 32px;
+    border-radius: 0 64px 64px;
+    max-width: 720px;
+}
+
+.bot-reply{
+    align-items: flex-end;
+    line-height: 150%;
+    /* letter-spacing: 0.05em; */
+}
+
+.bot-text{
+    margin-left: 0;
+    margin-right: 128px;
+    border-radius: 32px 0 32px 32px;
+}
+
+.text-down{
+    margin-bottom: 8px;
+}
+
+.bottom-input{
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+}
+
+.bottom-moving-part{
+    position: fixed;
+    bottom: 32px;
+}
 
 /**********media query**********/
 
@@ -408,5 +479,9 @@ body::-webkit-scrollbar{
     .signup-popup, .fade-field{
         height: 110vh;
 
+    }
+
+    .bottom-moving-part{
+        bottom: 128px;
     }
 }
