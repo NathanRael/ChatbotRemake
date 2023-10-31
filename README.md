@@ -1,12 +1,14 @@
 # ChatbotRemake
 Remake of the last chatBot web app
 
-#Features 
+# Features 
 Here are the features :
-  -New desing
-  -Smooth animation and transition
-  -Using external API
+  -New UI/UX desing
   
-#Note
+# Upcoming feature
+  -Smooth transition and animation
+  -External API (GPT 3.5)
+ 
+# Note
 Note that the project is still under developpement
 
