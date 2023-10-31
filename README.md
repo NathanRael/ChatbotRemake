@@ -22,3 +22,6 @@ Here are the steps to insall the project :
 
 Note that the project is still under developpement
 
+## Support
+
+If you encounter any issues or have questions, please open an [issue](https://github.com/username/ChatbotRemake/issues) on GitHub.
