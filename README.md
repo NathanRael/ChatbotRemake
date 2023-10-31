@@ -24,4 +24,4 @@ Note that the project is still under developpement
 
 ## Support
 
-Your support and your help would be appreciated
+Your support and your help would be appreciate
