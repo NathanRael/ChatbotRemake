@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./src/frameworks/bootstrap-icons.css">
+    <script src="./src/frameworks/jquery-3.7.1.min.js" ></script>
+    <link rel="stylesheet" href="./src/css/style.css">
+    <script src="./src/js/main.js" defer></script>
+    <title>WeatherAPI</title>
+</head>
+<body>
+    <div class="btn-previous-container">
+        <a href="/mainInterface.html" class="btn-previous"><i class="bi bi-arrow-left"></i></a>     
+    </div>
+    <ul class="reply-container">
+        <li class="bot-reply">
+            <!-- <p class="bot-reply-abbreviation">R</p> -->
+            <img src="./src/image/logo.png" alt="" width="125px">
+            <div class="bot-text">
+                <p class="text-down">
+                    Welcome to the WEATHER API mode :)
+                </p>
+                <p class="text-down">
+                    Before rendering the weather,I need your country name
+                </p>
+                <p class="text-down">
+                    What is your country name ?
+                </p>
+            </div>
+        </li>
+        <li class="user-reply">
+            <p class="user-reply-abbreviation">R</p>
+            <div class="user-text">
+                Madagascar
+            </div>
+        </li>
+        <li class="bot-reply">
+            <!-- <p class="bot-reply-abbreviation">R</p> -->
+            <img src="./src/image/logo.png" alt="" width="125px">
+            <div class="bot-text">
+                Well, here is the weather today :
+            </div>
+            <div class="weather-card">
+                <p class="country-name">Madagascar</p>
+                <p class="climat">
+                    <i class="bi bi-brightness-high"></i>
+                    Sunny
+                </p>
+                <p class="temperature">Temp 25°C</p>
+                <p class="humidity">Hudidity 23%</p>
+            </div>
+        </li>
+
+    </ul>
+    
+    <div class="user-input-container bottom-input">
+        <input type="text" class="user-input" placeholder="Type something ...">
+        <a href="/problemSolverInterface.html" class="link"><i class="bi bi-arrow-right"></i></a>
+    </div>
+    <section class="bottom-moving-part">
+        <div class="user-item-container">
+            <p class="user-abbreviation">R</p>
+            <i class="bi bi-gear user-setting"></i>
+            <i class="bi bi-box-arrow-right user-logout"></i>
+            <button class="new-chat btn">
+                <i class="bi bi-plus-lg user-item-icon"></i>
+                    New chat
+            </button>
+            <button class="chat-history btn">
+                <i class="bi bi-clock-history user-item-icon"></i>
+                    Chat history
+            </button>
+        </div>
+    </section>
+    <div class="popup-bg"></div>
+    <div class="setting-popup">
+        <div class="setting-header">
+            <h2 class="setting-header-text">Setting</h2>
+            <i class="bi bi-x-lg"></i>
+        </div>
+        <hr>
+        <div class="setting-body">
+            <div class="setting-body-profile">
+                <h2 class="setting-title">Profile</h2>
+                <div class="setting-input-group">
+                    <input type="text" placeholder="UserName">
+                    <input type="text" placeholder="Password">
+                </div>
+                <button class="setting-btn-profile">
+                    <i class="bi bi-pencil-square"></i>
+                    Edit profile
+                </button>
+                <hr>
+            </div>
+
+            <div class="setting-body-other">
+                <h1 class="setting-title">Other</h1>
+                <div class="clear-history">
+                    <p class="clear-history-text">Clear all history</p>
+                    <button class=" btn-clear-history">
+                        <i class="bi bi-trash"></i>
+                        Clear
+                    </button>
+                </div>
+                <hr>
+                <div class="dark-mode">
+                    <div class="dark-mode-text">
+                        Dark mode
+                    </div>
+                    <input type="checkbox" name="" id="darkMode" class="btn-dark-mode">
+                    <label for="darkMode" class="dark-mode-label">
+                        <i class="bi bi-toggle-on"></i>
+                    </label>
+                </div>
+                <hr>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>
