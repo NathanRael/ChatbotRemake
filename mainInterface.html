@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head class="head">
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./src/frameworks/bootstrap-icons.css">
+        <script src="./src/frameworks/jquery-3.7.1.min.js" ></script>
+        <link rel="stylesheet" href="./src/css/style.css">
+        <script src="./src/js/main.js" defer></script>
+    
+        <title>Main</title>
+    </head>
+<body>
+    <section class="">
+        <div class="main-hero">
+            <img src="./src/image/logo.png" alt="" class="main-image">
+            <p class="hero-lead">Hi there, how can i assist you today ?</p>
+        </div>
+        <div class="prompt-example-container">
+            <div class="prompt-example">
+                <p>Tell me more about you</p>
+                <i class="bi bi-caret-right"></i>
+            </div>
+        </div>
+        <div class="user-input-container">
+            <input type="text" class="user-input" placeholder="Type something ...">
+            <a href="/problemSolverInterface.html" class="link"><i class="bi bi-arrow-right"></i></a>
+        </div>
+    </section>
+    <section class="bot-customisation">
+        <h1 class="customisation-title">Bot customisations</h1>
+        <div class="customisation-card-container">
+            <div class="customisation-card">
+                <div class="customisation-icon">
+                    <i class="bi bi-brightness-high"></i>
+                </div>
+                <div class="text-container">
+                    <h2 class="text-container-title">Weather API</h2>
+                    <p class="customisation-desc">Check the weather in your country</p>
+                </div>
+                <a href="/weatherAPI.html" class="btn">Try it</a>
+            </div>
+            <div class="customisation-card">
+                <div class="customisation-icon">
+                    <i class="bi bi-robot"></i>
+                </div>
+                <div class="text-container">
+                    <h2 class="text-container-title">Problem solver</h2>
+                    <p class="customisation-desc">Assist you throughout your work</p>
+                </div>
+                <a href="/problemSolverInterface.html" class="btn">Try it</a>
+            </div>
+        </div>
+    </section>
+    <section class="moving-part">
+        <div class="user-item-container">
+            <p class="user-abbreviation">R</p>
+            <i class="bi bi-gear user-setting"></i>
+            <i class="bi bi-box-arrow-right user-logout"></i>
+            <button class="new-chat btn">
+                <i class="bi bi-plus-lg user-item-icon"></i>
+                    New chat
+            </button>
+            <button class="chat-history btn">
+                <i class="bi bi-clock-history user-item-icon"></i>
+                    Chat history
+            </button>
+        </div>
+    </section>
+    <!-- Components -->
+    <div class="popup-bg"></div>
+    <div class="setting-popup">
+        <div class="setting-header">
+            <h2 class="setting-header-text">Setting</h2>
+            <i class="bi bi-x-lg close-popup"></i>
+        </div>
+        <hr>
+        <div class="setting-body">
+            <div class="setting-body-profile">
+                <h2 class="setting-title">Profile</h2>
+                <div class="setting-input-group">
+                    <input type="text" placeholder="UserName">
+                    <input type="text" placeholder="Password">
+                </div>
+                <button class="setting-btn-profile">
+                    <i class="bi bi-pencil-square"></i>
+                    Edit profile
+                </button>
+                <hr>
+            </div>
+
+            <div class="setting-body-other">
+                <h1 class="setting-title">Other</h1>
+                <div class="clear-history">
+                    <p class="clear-history-text">Clear all history</p>
+                    <button class=" btn-clear-history">
+                        <i class="bi bi-trash"></i>
+                        Clear
+                    </button>
+                </div>
+                <hr>
+                <div class="dark-mode">
+                    <div class="dark-mode-text">
+                        Dark mode
+                    </div>
+                    <input type="checkbox" name="" id="darkMode" class="btn-dark-mode">
+                    <label for="darkMode" class="dark-mode-label">
+                        <i class="bi bi-toggle-on"></i>
+                    </label>
+                </div>
+                <hr>
+            </div>
+            
+        </div>
+    </div>
+    <div class="history-popup">
+        <div class="history-header">
+            <h2 class="history-header-text">Hitory</h2>
+            <i class="bi bi-x-lg close-popup"></i>
+        </div>
+        <hr>
+        <div class="history-body">
+            <div class="history-body-date">
+                <h2 class="history-title">Today</h2>    
+                <div class="history-date-content">
+                    Tell me  more about you ? ......
+                </div>
+                <div class="history-date-content">
+                    Well, can you fix this snippet of 
+                    code for me ?
+                </div>
+            </div>
+            
+        </div>
+        <div class="history-body">
+            <div class="history-body-date">
+                <h2 class="history-title">Last 7 days</h2>    
+                <div class="history-date-content">
+                    Tell me  more about you ? ......
+                </div>
+                <div class="history-date-content">
+                    Well, can you fix this snippet of 
+                    code for me ?
+                </div>  
+            </div>
+            
+        </div>
+
+</body>
+</html>
