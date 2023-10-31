@@ -4,6 +4,7 @@ Remake of the last chatBot web app
 ## Features 
 
 - New UI/UX desing
+- User Interaction
   
 ## Installation
 
