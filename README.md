@@ -24,4 +24,4 @@ Note that the project is still under developpement
 
 ## Support
 
-If you encounter any issues or have questions, please open an [issue](https://github.com/username/ChatbotRemake/issues) on GitHub.
+Your support and your help would be appreciated
