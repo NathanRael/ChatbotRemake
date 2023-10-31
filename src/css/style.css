@@ -516,6 +516,7 @@ body::-webkit-scrollbar{
 
 /***setting popup********/
 .popup-bg{
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -523,8 +524,9 @@ body::-webkit-scrollbar{
     width: 100vw;
     height: 100vh;
 }
-.setting-popup{
-    display: flex;
+.setting-popup, .history-popup{
+    /* display: flex; */
+    display: none;
     flex-direction: column;
     row-gap: 32px;
     padding: 24px;
@@ -538,30 +540,30 @@ body::-webkit-scrollbar{
     background-color: var(--input-color);
 }
 
-.setting-header{
+.setting-header, .history-header{
     display: flex;
     justify-content: space-between;
 }
 
-.setting-header-text{
+.setting-header-text, .history-header-text{
     font-size: var(--sub-heading);
     color: var(--text-color);
     letter-spacing: 0.05em;
 
 }
-.setting-header i{
+.setting-header i, .history-header i{
     font-size: 24px;
     color: var(--text-color);
     cursor: pointer;
 }
 
-.setting-body{
+.setting-body, .history-body{
     display: flex;
     flex-direction: column;
     row-gap: 32px;
 }
 
-.setting-title{
+.setting-title, .history-title{
     border-radius: 32px;
     color: var(--text-color);
     text-align: center;
@@ -645,7 +647,21 @@ body::-webkit-scrollbar{
     font-size: 24px;
 }
   
+.history-popup{
+    width: 490px;
+}
 
+.history-date-content{
+    background-color: transparent;
+    color: var(--text-color);
+    font-size: var(--body-fs);
+    border: solid 1px var(--secondary-color);
+    border-radius: 32px;
+    padding: 16px 32px;
+    width: fit-content;
+    margin: 0 auto;
+    margin-bottom: 16px;
+}
 
 
 

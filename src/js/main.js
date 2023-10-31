@@ -1,5 +1,5 @@
 
-/******Toggle popup **********/
+/******Toggle index popup **********/
 
 let is_log_toggled = false;
 
@@ -31,6 +31,30 @@ function toggleFadeField(activePopup){
     }
 }
 
+/******toggle setting&hitory popup**** */
+$('.user-setting').click(()=>{
+    $('.setting-popup').css('display', 'flex').show();
+    $('.popup-bg').show();
+})
+$('.chat-history').click(()=>{
+    $('.history-popup').css('display', 'flex').show();
+    $('.popup-bg').show();
+})
 
+$('.close-popup').click(()=>{
+    $('.setting-popup').hide();
+    $('.history-popup').hide();
+    $('.popup-bg').hide();
+})
+
+$('.new-chat').click( () =>{
+    // window.location.href('')
+    alert('New chat');
+    }
+)
+
+$('.user-logout').click(()=>{
+    window.location.href = '/index.html';
+})
 
 
