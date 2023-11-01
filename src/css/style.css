@@ -80,9 +80,9 @@ body::-webkit-scrollbar{
     height: 47px;
 }
 
-.btn-login{
+/* .btn-login{
     font-size: var(--body-secondary-fs);
-}
+} */
 
 .hero{
     display: flex;
@@ -273,13 +273,14 @@ body::-webkit-scrollbar{
     color: var(--text-color);
 }
 
-.user-input-container i{
+.user-input-container button{
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     background-color: var(--secondary-color);
     color: var(--text-color);
+    border: solid 1px var(--secondary-color);
     border-radius: 32px;
     width: 52px;
     height: 52px;
@@ -350,9 +351,6 @@ body::-webkit-scrollbar{
 }
 .user-abbreviation, .user-setting, .user-logout{
     position: absolute;
-    /* top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); */
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -367,6 +365,7 @@ body::-webkit-scrollbar{
 
 }
 .new-chat, .chat-history{
+    display: none;
     position: absolute;
     left: 50%;
     transform:translateX(-50%);
@@ -381,6 +380,7 @@ body::-webkit-scrollbar{
 }
 
 .user-logout{
+    display: none;
     top: 50%;
     right: 0;
     transform: translateY(-50%);
@@ -388,7 +388,7 @@ body::-webkit-scrollbar{
     border: solid 1px var(--secondary-color);
 }
 .user-setting{
-    
+    display: none;
     top: 50%;
     left: 0;
     transform: translateY(-50%);
@@ -530,7 +530,7 @@ body::-webkit-scrollbar{
     flex-direction: column;
     row-gap: 32px;
     padding: 24px;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
