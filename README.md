@@ -5,6 +5,7 @@ Remake of the last chatBot web app
 
 - New UI/UX desing
 - User Interaction
+- External API
   
 ## Installation
 
@@ -13,11 +14,7 @@ Here are the steps to insall the project :
 2. Navigate to the project directory
 3. Open the 'index.html' inside the project directory
 
-  
-## Upcoming feature
 
-- Smooth transition and animation
-- External API (GPT 3.5)
  
 ## Note
 
