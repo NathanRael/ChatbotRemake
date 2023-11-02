@@ -138,6 +138,8 @@ $('.user-logout').click(() => {
 class Message {
     input;
     button;
+    mainMessage = [];
+    apiMessage = [];
 
     constructor(input, button) {
         this.input = input;
@@ -149,9 +151,6 @@ class Message {
             if (data) {
                 this.saveData(data, dataName);
                 this.clearInputValue();
-                this.renderUserMessage(dataName);
-                this.generateBotMessage(data);//THE BOT REPLY
-
             } else {
                 alert("Please type something before you send !");
             }
@@ -167,19 +166,33 @@ class Message {
         }
     }
 
-    renderUserMessage(dataName) {
+    renderUserMessage(message, from = 'main') {
 
-        let message = this.loadData(dataName) || 'undefined';
-        if (message) {
-            $('.reply-container').append(`
-                <li class="user-reply">
-                    <p class="user-reply-abbreviation">R</p>
-                    <div class="user-text">
-                        ${message}
-                    </div>
-                </li>
-            `);
+        if (from === 'main'){
+            if (message) {
+                $('.probReplyContainer').append(`
+                    <li class="user-reply">
+                        <p class="user-reply-abbreviation">R</p>
+                        <div class="user-text">
+                            ${message}
+                        </div>
+                    </li>
+                `);
+
+            }
+        }else if (from = 'weatherApi'){
+            if (message) {
+                $('.weatherReplyContainer').append(`
+                    <li class="user-reply">
+                        <p class="user-reply-abbreviation">R</p>
+                        <div class="user-text">
+                            ${message}
+                        </div>
+                    </li>
+                `);
+            }
         }
+
     }
 
     renderBotMessage( message,time = 500,) {
@@ -197,39 +210,48 @@ class Message {
         }, time);
     }
 
+    getMainMessage(){
+        return this.mainMessage;
+    }
+
+    getApiMessage(){
+        return this.apiMessage;
+    }
+
     async generateBotMessage(userMessage) {
 
-        const apiUrl = 'https://api-fakell.x10.mx/v1/chat/completions/';
+        // const apiUrl = 'https://api-fakell.x10.mx/v1/chat/completions/';
     
-        const data = {
-            model: 'gpt-3.5-turbo',
-            messages: [
-                { role: 'user', content: userMessage }
-            ],
-            stream: false
-        };
+        // const data = {
+        //     model: 'gpt-3.5-turbo',
+        //     messages: [
+        //         { role: 'user', content: userMessage }
+        //     ],
+        //     stream: false
+        // };
     
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        };
+        // const requestOptions = {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(data)
+        // };
     
-        try {
-            const response = await fetch(apiUrl, requestOptions);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const responseData = await response.json();
+        // try {
+        //     const response = await fetch(apiUrl, requestOptions);
+        //     if (!response.ok) {
+        //         throw new Error(`HTTP error! status: ${response.status}`);
+        //     }
+        //     const responseData = await response.json();
+        //     let message = responseData.choices[0].message.content;
 
-            let message = responseData.choices[0].message.content;
-
-            this.renderBotMessage(message);
-        } catch (error) {
-            console.error('Error:', error);
-        }
+        //     // this.renderBotMessage(message);
+        // } catch (error) {
+        //     console.error('Error:', error.message);
+        //     alert('Error : ' + error.message);
+        // }
+        this.renderBotMessage("message");
     }
     
     
@@ -244,11 +266,17 @@ class Message {
     }
 
     saveData(data, dataName) {
-        localStorage.setItem(dataName, data);
+        if (dataName === 'mainMessage'){
+            this.mainMessage.push(data);
+            localStorage.setItem(dataName, JSON.stringify(this.mainMessage));
+        }else if (dataName === 'weatherMessage'){
+            this.apiMessage.push(data);
+            localStorage.setItem(dataName, JSON.stringify(this.apiMessage));
+        }
     }
 
     loadData(dataName) {
-        return localStorage.getItem(dataName);
+        return JSON.parse(localStorage.getItem(dataName));
     }
 }
 
@@ -271,18 +299,21 @@ $('#sendMainPrompt').click(function () {
     mainPrompt.sendMessage('main', userPrompt, 'mainMessage');
 
 });
-
-mainPrompt.renderUserMessage('mainMessage');
 mainPrompt.generateBotMessage(userPrompt);
+mainPrompt.renderUserMessage(userPrompt);
 
 
 
-$('#sendProbPrompt').click(function () {
+
+$('#sendProbPrompt').click(function (e) {
     userPrompt = $('#probPromptInput').val().trim();
     probPrompt.sendMessage('other', userPrompt, 'mainMessage');
+    probPrompt.renderUserMessage(userPrompt);
+    probPrompt.generateBotMessage(userPrompt);
+
 });
 
 $('#sendApiPrompt').click(function () {
     userPrompt = $('#ApiPromptInput').val().trim();
-    apiPrompt.sendMessage('other', userPrompt, 'apiMessage');
+    apiPrompt.sendMessage('other', userPrompt, 'weatherMessage');
 });
