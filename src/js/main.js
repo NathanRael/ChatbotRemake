@@ -1,160 +1,288 @@
-
 /******Toggle index popup **********/
 
-let is_log_toggled = false;
+class ToggleMainButton {
+    is_popup_toggled = false;
+    buttonName;
+    popupName;
+    fadeField;
 
+    constructor(buttonName, popupName, fadeField) {
+        this.buttonName = buttonName;
+        this.popupName = popupName;
+        this.fadeField = fadeField;
+    }
 
-$('.btn-login').click(function(){
-    !is_log_toggled ? togglePopup('.login-popup', 0, true) : '';
-    toggleFadeField('.login-popup');
-})
-
-$('.btn-signup').click(function(){
-    !is_log_toggled ? togglePopup('.signup-popup', 0, true) : '';
-    toggleFadeField('.signup-popup' );
-})
-
-
-function togglePopup( name, pos, is_toggled){
-    $(name).show().animate({
-        "right" : pos,
-    }, 500);
-    is_log_toggled = is_toggled;
-}
-
-function toggleFadeField(activePopup){
-    if (is_log_toggled){
-        $('.fade-field').show().click(function (){
-            togglePopup(activePopup, '-524px', false);
-            $(this).hide();
+    animate() {
+        $(this.buttonName).click(() => {
+            !this.is_popup_toggled ? this.#togglePopup(this.popupName, 0, true) : null;
+            this.#toggleFadeField();
         });
     }
+
+    #togglePopup(popupName, position, isToggled) {
+        $(popupName).show().animate({
+            "right": position,
+        }, 500);
+        this.is_popup_toggled = isToggled;
+    }
+
+    #toggleFadeField() {
+        if (this.is_popup_toggled) {
+            $(this.fadeField).show()
+                .click(() => {
+                    this.#togglePopup(this.popupName, '-524px', false);
+                    $(this.fadeField).hide();
+                });
+        }
+    }
 }
+
+// Create instances and call methods
+let loginBtn = new ToggleMainButton('.btn-login', '.login-popup', '.fade-field');
+let signupBtn = new ToggleMainButton('.btn-signup', '.signup-popup', '.fade-field');
+
+loginBtn.animate();
+signupBtn.animate();
+
 
 /******toggle setting&hitory popup**** */
-$('.user-setting').click(()=>{
-    $('.setting-popup').show(500).css('display', 'flex');
-    $('.popup-bg').show(100);
-})
-$('.chat-history').click(()=>{
-    $('.history-popup').show(500).css('display', 'flex');
-    $('.popup-bg').show(100);
-})
 
-$('.close-popup').click(()=>{
-    $('.setting-popup').hide(500);
-    $('.history-popup').hide(500);
-    $('.popup-bg').hide(100);
-})
+class MovingPart {
+    itemName;
 
-$('.new-chat').click( () =>{
-    // window.location.href('')
-    alert('New chat');
+    constructor(itemName) {
+        this.itemName = itemName;
     }
-)
 
-$('.user-logout').click(()=>{
-    window.location.href = '/index.html';
-})
+    handleClick(speed = 500, popupName = '.setting-popup', popupBg = '.popup-bg') {
+        $(this.itemName).click(() => {
+            $(popupName).show(speed).css('display', 'flex');
+            $(popupBg).show(speed / 5);
+        });
+    }
 
-/******moving part *******/
-function toggleMovingPart(){
-    let is_clicked = true;
-    $('.user-abbreviation').click(()=>{
-        if(is_clicked){
-            is_clicked = false;
-            $('.user-setting, .user-logout, .new-chat, .chat-history')
-            .slideToggle(500, () => is_clicked = true)//using callback function
-            .css('display', 'flex');
-        }
-    })
-}
+    canBeClosed(closeIcon, speed = 500, popupName = '.setting-popup', popupBg = '.popup-bg') {
+        $(closeIcon).click(() => {
+            $(popupName).hide(speed);
+            $(popupBg).hide(speed / 5);
+        });
+    }
 
-function moveMovingPart(){//dragging the object depending to the cursor pos
-    $('.user-abbreviation').mousedown(function(e) {
-        e.preventDefault(); // Prevents default behavior (e.g., text selection)
-    
-        let element = $('.user-item-container');
-        let isDragging = true;
+    toggleItem() {
+        let is_clicked = true;
+        $('.user-abbreviation').click(() => {
+            if (is_clicked) {
+                is_clicked = false;
+                $('.user-setting, .user-logout, .new-chat, .chat-history')
+                    .slideToggle(500, () => is_clicked = true)
+                    .css('display', 'flex');
+            }
+        });
+    }
 
-        $(document).mousemove(function (e){
-            if (isDragging){
-                element.css({
-                    'top': e.pageY - $(window).scrollTop() - 120,
-                    'left': e.pageX - 120,
-                });
-                /****Reseting the movingPart pos if it's far from the windows */
-                if (e.pageY <= 64){
-                    element.css({
-                        'top':  $(window).scrollTop() - 0,
-                        'left': e.pageX - 120,
-                    });
-                }
-                if(e.pageX <= 0){
+    canBeDragged(anchor = this.itemName, container = '.user-item-container') {
+        $(anchor).mousedown(function (e) {
+            e.preventDefault();
+            let element = $(container);
+            let isDragging = true;
+
+            $(document).mousemove(function (e) {
+                if (isDragging) {
                     element.css({
                         'top': e.pageY - $(window).scrollTop() - 120,
-                        'left': -128,
-                    }); 
+                        'left': e.pageX - 120,
+                    });
+                    if (e.pageY <= 64) {
+                        element.css({
+                            'top': $(window).scrollTop() - 0,
+                            'left': e.pageX - 120,
+                        });
+                    }
+                    if (e.pageX <= 0) {
+                        element.css({
+                            'top': e.pageY - $(window).scrollTop() - 120,
+                            'left': -128,
+                        });
+                    }
                 }
-            }
-        }).mouseup(function() {
-            isDragging = false;
-            $(document).off('mousemove').off('mouseup');
+            }).mouseup(function () {
+                isDragging = false;
+                $(document).off('mousemove').off('mouseup');
+            });
+
         });
-
-    })
-
-} 
-
-moveMovingPart();
-toggleMovingPart();
-
-/***Input ****/
-
-//rendering the suggestionPromt inside the input
-$('.prompt-example').click(function (){
-    const prompt = $(this).text().trim() || null;
-    if (prompt){
-        $('.user-input').val(prompt);
     }
+}
 
+// Create instances and call methods
+let userSetting = new MovingPart('.user-setting');
+let chatHistory = new MovingPart('.chat-history');
+let userAbbreviation = new MovingPart('.user-abbreviation');
 
-})
+userSetting.handleClick();
+userSetting.canBeClosed('.close-popup');
+chatHistory.handleClick();
+chatHistory.canBeClosed('.close-popup');
+userAbbreviation.canBeDragged();
+userAbbreviation.toggleItem();
 
-$('.sendPrompt').each(function (indexInArray, sendPrompt) { 
-    $(sendPrompt).click(function () { 
-        const prompt = $('.user-input').val() || null;
-        if (prompt){
-            saveItem(prompt);
-        }
-     })
+$('.new-chat').click(() => {
+    alert('New chat');
 });
 
+$('.user-logout').click(() => {
+    window.location.href = '/index.html';
+});
 
+/***Input ****/
+class Message {
+    input;
+    button;
 
-function saveItem(data){
-    localStorage.setItem('MainPrompt', data)
-}
+    constructor(input, button) {
+        this.input = input;
+        this.button = button;
+    }
 
-function loadItem(dataName){
-    return localStorage.getItem(dataName);
-}
+    sendMessage(from = 'other', data, dataName) {
+        if (from === 'other') {
+            if (data) {
+                this.saveData(data, dataName);
+                this.clearInputValue();
+                this.renderUserMessage(dataName);
+                this.generateBotMessage(data);//THE BOT REPLY
 
-function setUserMessage(){
-    let message = loadItem('MainPrompt') || 'undefined';
-    if (message){   
-        $('.reply-container').prepend(`
-            <li class="user-reply">
-                <p class="user-reply-abbreviation">R</p>
-                <div class="user-text">
-                    ${message}
+            } else {
+                alert("Please type something before you send !");
+            }
+
+        } else if (from === 'main') {
+            if (data) {
+                this.saveData(data, dataName);
+                window.location.href = '/problemSolverInterface.html';
+
+            } else {
+                alert("Please type something before you send !");
+            }
+        }
+    }
+
+    renderUserMessage(dataName) {
+
+        let message = this.loadData(dataName) || 'undefined';
+        if (message) {
+            $('.reply-container').append(`
+                <li class="user-reply">
+                    <p class="user-reply-abbreviation">R</p>
+                    <div class="user-text">
+                        ${message}
+                    </div>
+                </li>
+            `);
+        }
+    }
+
+    renderBotMessage( message,time = 500,) {
+        setTimeout(() => {
+            $('.reply-container').append(`
+            <li class="bot-reply">
+                <img src="./src/image/logo.png" alt="" width="125px">
+                <div class="bot-text">
+                    <p class="text-down">
+                        ${message}
+                    </p>
                 </div>
             </li>
-        `
-        )
+        `);
+        }, time);
+    }
+
+    async generateBotMessage(userMessage) {
+
+        const apiUrl = 'https://api-fakell.x10.mx/v1/chat/completions/';
+    
+        const data = {
+            model: 'gpt-3.5-turbo',
+            messages: [
+                { role: 'user', content: userMessage }
+            ],
+            stream: false
+        };
+    
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        };
+    
+        try {
+            const response = await fetch(apiUrl, requestOptions);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const responseData = await response.json();
+
+            let message = responseData.choices[0].message.content;
+
+            this.renderBotMessage(message);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+    
+    
+
+    
+    click(func) {
+        $(this.button).click(func);
+    }
+
+    clearInputValue() {
+        $(this.input).val('');
+    }
+
+    saveData(data, dataName) {
+        localStorage.setItem(dataName, data);
+    }
+
+    loadData(dataName) {
+        return localStorage.getItem(dataName);
     }
 }
 
-setUserMessage();
+// Render suggestionPrompt inside the input
+$('.prompt-example').click(function () {
+    const prompt = $(this).text().trim() || null;
+    if (prompt) {
+        $('.user-input').val(prompt);
+    }
+});
+
+// Create instances and set up message sending
+let mainPrompt = new Message('#mainPromptInput', '#sendMainPrompt');
+let probPrompt = new Message('#probPromptInput', '#sendProbPrompt');
+let apiPrompt = new Message('#ApiPromptInput', '#sendApiPrompt');
+let userPrompt;
+
+$('#sendMainPrompt').click(function () {
+    userPrompt = $('#mainPromptInput').val().trim();
+    mainPrompt.sendMessage('main', userPrompt, 'mainMessage');
+
+});
+
+mainPrompt.renderUserMessage('mainMessage');
+mainPrompt.generateBotMessage(userPrompt);
 
 
+
+$('#sendProbPrompt').click(function () {
+    userPrompt = $('#probPromptInput').val().trim();
+    probPrompt.sendMessage('other', userPrompt, 'mainMessage');
+});
+
+$('#sendApiPrompt').click(function () {
+    userPrompt = $('#ApiPromptInput').val().trim();
+    apiPrompt.sendMessage('other', userPrompt, 'apiMessage');
+});
