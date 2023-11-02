@@ -54,14 +54,14 @@ class MovingPart {
         this.itemName = itemName;
     }
 
-    handleClick(speed = 500, popupName = '.setting-popup', popupBg = '.popup-bg') {
+    handleClick( popupName = '.setting-popup',speed = 500, popupBg = '.popup-bg') {
         $(this.itemName).click(() => {
             $(popupName).show(speed).css('display', 'flex');
             $(popupBg).show(speed / 5);
         });
     }
 
-    canBeClosed(closeIcon, speed = 500, popupName = '.setting-popup', popupBg = '.popup-bg') {
+    canBeClosed(closeIcon, popupName = '.setting-popup', speed = 500, popupBg = '.popup-bg') {
         $(closeIcon).click(() => {
             $(popupName).hide(speed);
             $(popupBg).hide(speed / 5);
@@ -121,8 +121,8 @@ let userAbbreviation = new MovingPart('.user-abbreviation');
 
 userSetting.handleClick();
 userSetting.canBeClosed('.close-popup');
-chatHistory.handleClick();
-chatHistory.canBeClosed('.close-popup');
+chatHistory.handleClick('.history-popup');
+chatHistory.canBeClosed('.close-popup', '.history-popup');
 userAbbreviation.canBeDragged();
 userAbbreviation.toggleItem();
 
@@ -138,7 +138,14 @@ $('.user-logout').click(() => {
 class Message {
     input;
     button;
-    mainMessage = [];
+    mainMessage = [
+        {class : 'bot-reply', message : 'How can I assist you today ?'},
+        {class : 'user-reply', message : 'day'},
+        {class : 'bot-reply', message : 'No xay dude'},
+        {class : 'bot-reply', message : 'squr'},
+        {class : 'user-reply', message : 'nope mec'},
+        {class : 'bot-reply', message : 'Hi'},
+    ];
     apiMessage = [];
 
     constructor(input, button) {
@@ -149,15 +156,16 @@ class Message {
     sendMessage(from = 'other', data, dataName) {
         if (from === 'other') {
             if (data) {
-                this.saveData(data, dataName);
+                this.saveData(data, dataName, 'user-reply');
                 this.clearInputValue();
             } else {
+                this.saveData(' ', dataName, 'user-reply');
                 alert("Please type something before you send !");
             }
 
         } else if (from === 'main') {
             if (data) {
-                this.saveData(data, dataName);
+                this.saveData(data, dataName, 'user-reply');
                 window.location.href = '/problemSolverInterface.html';
 
             } else {
@@ -166,9 +174,9 @@ class Message {
         }
     }
 
-    renderUserMessage(message, from = 'main') {
+    renderUserMessage(message, from = 'mainMessage') {
 
-        if (from === 'main'){
+        if (from === 'mainMessage'){
             if (message) {
                 $('.probReplyContainer').append(`
                     <li class="user-reply">
@@ -178,9 +186,10 @@ class Message {
                         </div>
                     </li>
                 `);
+                $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
 
             }
-        }else if (from = 'weatherApi'){
+        }else if (from = 'weatherMessage'){
             if (message) {
                 $('.weatherReplyContainer').append(`
                     <li class="user-reply">
@@ -190,24 +199,75 @@ class Message {
                         </div>
                     </li>
                 `);
+                $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
             }
         }
 
     }
 
-    renderBotMessage( message,time = 500,) {
+    renderBotMessage( message, from = 'mainMessage', time = 500,) {
         setTimeout(() => {
-            $('.reply-container').append(`
-            <li class="bot-reply">
-                <img src="./src/image/logo.png" alt="" width="125px">
-                <div class="bot-text">
-                    <p class="text-down">
-                        ${message}
-                    </p>
-                </div>
-            </li>
-        `);
+            if (from === 'mainMessage'){
+                $('.probReplyContainer').append(`
+                <li class="bot-reply">
+                    <img src="./src/image/logo.png" alt="" width="125px">
+                    <div class="bot-text">
+                        <p class="text-down">
+                            ${message}
+                        </p>
+                    </div>
+                </li>
+                `)
+                $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
+            }else if (from === 'weatherMessage'){
+                $('.weatherReplyContainer').append(`
+                <li class="bot-reply">
+                    <img src="./src/image/logo.png" alt="" width="125px">
+                    <div class="bot-text">
+                        <p class="text-down">
+                            ${message}
+                        </p>
+                    </div>
+                </li>
+                
+                `)
+                $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
+            }
+            this.loadMainMessage();
+
         }, time);
+    }
+
+    loadMainMessage(){
+        this.mainMessage = this.loadData('mainMessage') || null;
+        const datas = this.mainMessage
+        if (datas){
+            $('.probReplyContainer').empty();
+            for ( let data of datas){   
+                if (data.class === 'user-reply'){
+                    $('.probReplyContainer').append(`
+                        <li class="user-reply">
+                            <p class="user-reply-abbreviation">R</p>
+                            <div class="user-text">
+                                ${data.message}
+                            </div>
+                        </li>
+                    `)
+                }else if (data.class === 'bot-reply'){
+                    $('.probReplyContainer').append(`
+                    <li class="bot-reply">
+                        <img src="./src/image/logo.png" alt="" width="125px">
+                        <div class="bot-text">
+                            <p class="text-down">
+                                ${data.message}
+                            </p>
+                        </div>
+                    </li>
+                    `)
+                }
+            }
+        }
+
     }
 
     getMainMessage(){
@@ -218,7 +278,7 @@ class Message {
         return this.apiMessage;
     }
 
-    async generateBotMessage(userMessage) {
+    async generateBotMessage(userMessage, from) {
 
         // const apiUrl = 'https://api-fakell.x10.mx/v1/chat/completions/';
     
@@ -251,7 +311,12 @@ class Message {
         //     console.error('Error:', error.message);
         //     alert('Error : ' + error.message);
         // }
-        this.renderBotMessage("message");
+        if (from === 'mainMessage'){
+            this.saveData("message", "mainMessage", "bot-reply")
+        }else if (from === 'weatherMessage'){
+            this.saveData("message", "weatherMessage", "bot-reply")
+        }
+        this.renderBotMessage("message", from);
     }
     
     
@@ -265,9 +330,11 @@ class Message {
         $(this.input).val('');
     }
 
-    saveData(data, dataName) {
+    saveData(data, dataName, className) {
         if (dataName === 'mainMessage'){
-            this.mainMessage.push(data);
+            this.mainMessage.push(
+                {class : className, message : data}
+            );
             localStorage.setItem(dataName, JSON.stringify(this.mainMessage));
         }else if (dataName === 'weatherMessage'){
             this.apiMessage.push(data);
@@ -299,17 +366,14 @@ $('#sendMainPrompt').click(function () {
     mainPrompt.sendMessage('main', userPrompt, 'mainMessage');
 
 });
-mainPrompt.generateBotMessage(userPrompt);
-mainPrompt.renderUserMessage(userPrompt);
-
-
+mainPrompt.generateBotMessage('hello', 'mainMessage');
 
 
 $('#sendProbPrompt').click(function (e) {
     userPrompt = $('#probPromptInput').val().trim();
     probPrompt.sendMessage('other', userPrompt, 'mainMessage');
     probPrompt.renderUserMessage(userPrompt);
-    probPrompt.generateBotMessage(userPrompt);
+    probPrompt.generateBotMessage(userPrompt, 'mainMessage');
 
 });
 
