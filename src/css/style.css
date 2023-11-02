@@ -273,13 +273,14 @@ body::-webkit-scrollbar{
     color: var(--text-color);
 }
 
-.user-input-container i{
+.user-input-container button{
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     background-color: var(--secondary-color);
     color: var(--text-color);
+    border: solid 1px var(--secondary-color);
     border-radius: 32px;
     width: 52px;
     height: 52px;
