@@ -138,14 +138,7 @@ $('.user-logout').click(() => {
 class Message {
     input;
     button;
-    mainMessage = [
-        {class : 'bot-reply', message : 'How can I assist you today ?'},
-        {class : 'user-reply', message : 'day'},
-        {class : 'bot-reply', message : 'No xay dude'},
-        {class : 'bot-reply', message : 'squr'},
-        {class : 'user-reply', message : 'nope mec'},
-        {class : 'bot-reply', message : 'Hi'},
-    ];
+    mainMessage = this.loadData('mainMessage') || [];
     apiMessage = [];
 
     constructor(input, button) {
@@ -177,6 +170,7 @@ class Message {
     renderUserMessage(message, from = 'mainMessage') {
 
         if (from === 'mainMessage'){
+
             if (message) {
                 $('.probReplyContainer').append(`
                     <li class="user-reply">
@@ -186,6 +180,7 @@ class Message {
                         </div>
                     </li>
                 `);
+                
                 $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
 
             }
@@ -205,7 +200,7 @@ class Message {
 
     }
 
-    renderBotMessage( message, from = 'mainMessage', time = 500,) {
+    renderBotMessage( message, from = 'mainMessage', time = 500) {
         setTimeout(() => {
             if (from === 'mainMessage'){
                 $('.probReplyContainer').append(`
@@ -278,39 +273,7 @@ class Message {
         return this.apiMessage;
     }
 
-    async generateBotMessage(userMessage, from) {
-
-        // const apiUrl = 'https://api-fakell.x10.mx/v1/chat/completions/';
-    
-        // const data = {
-        //     model: 'gpt-3.5-turbo',
-        //     messages: [
-        //         { role: 'user', content: userMessage }
-        //     ],
-        //     stream: false
-        // };
-    
-        // const requestOptions = {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(data)
-        // };
-    
-        // try {
-        //     const response = await fetch(apiUrl, requestOptions);
-        //     if (!response.ok) {
-        //         throw new Error(`HTTP error! status: ${response.status}`);
-        //     }
-        //     const responseData = await response.json();
-        //     let message = responseData.choices[0].message.content;
-
-        //     // this.renderBotMessage(message);
-        // } catch (error) {
-        //     console.error('Error:', error.message);
-        //     alert('Error : ' + error.message);
-        // }
+    generateBotMessage(userMessage, from) {
         if (from === 'mainMessage'){
             this.saveData("message", "mainMessage", "bot-reply")
         }else if (from === 'weatherMessage'){
@@ -319,13 +282,6 @@ class Message {
         this.renderBotMessage("message", from);
     }
     
-    
-
-    
-    click(func) {
-        $(this.button).click(func);
-    }
-
     clearInputValue() {
         $(this.input).val('');
     }
@@ -336,10 +292,12 @@ class Message {
                 {class : className, message : data}
             );
             localStorage.setItem(dataName, JSON.stringify(this.mainMessage));
+
         }else if (dataName === 'weatherMessage'){
             this.apiMessage.push(data);
             localStorage.setItem(dataName, JSON.stringify(this.apiMessage));
         }
+        console.log('Data saved');
     }
 
     loadData(dataName) {
@@ -360,13 +318,18 @@ let mainPrompt = new Message('#mainPromptInput', '#sendMainPrompt');
 let probPrompt = new Message('#probPromptInput', '#sendProbPrompt');
 let apiPrompt = new Message('#ApiPromptInput', '#sendApiPrompt');
 let userPrompt;
+let datas;
 
 $('#sendMainPrompt').click(function () {
     userPrompt = $('#mainPromptInput').val().trim();
     mainPrompt.sendMessage('main', userPrompt, 'mainMessage');
 
+
 });
-mainPrompt.generateBotMessage('hello', 'mainMessage');
+datas = mainPrompt.loadData('mainMessage')[0].message || '';
+console.log(datas)
+mainPrompt.renderUserMessage(datas, 'mainMessage' );
+mainPrompt.generateBotMessage(userPrompt, 'mainMessage');
 
 
 $('#sendProbPrompt').click(function (e) {
