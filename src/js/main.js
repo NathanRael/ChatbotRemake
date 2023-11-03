@@ -134,6 +134,10 @@ $('.user-logout').click(() => {
     window.location.href = '/index.html';
 });
 
+// $('clearStorage').click(()=>{
+//     localStorage.removeItem('mainMessage');
+// })
+
 /***Input ****/
 class Message {
     input;
@@ -267,6 +271,11 @@ class Message {
         }
 
     }
+
+    // clearHistory(item){
+    //     localStorage.removeItem(item);
+    //     this.mainMessage = [];
+    // }
 
     getMainMessage(){
         return this.mainMessage;
