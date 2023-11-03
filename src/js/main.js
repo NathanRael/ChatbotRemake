@@ -144,7 +144,7 @@ class Message {
     constructor(input, button) {
         this.input = input;
         this.button = button;
-        this.mainMessage || this.loadMainMessage();
+        (this.mainMessage.length != 0) && this.loadMainMessage();
         
         
     }
