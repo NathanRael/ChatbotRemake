@@ -136,6 +136,7 @@ $('.user-logout').click(() => {
 
 $('.btn-clear-history').click(()=>{
     localStorage.removeItem('mainMessage');
+    $('.probReplyContainer').empty();
     alert('History deleted');
 })
 
@@ -158,7 +159,7 @@ class Message {
         if (from === 'other') {
             if (data) {
                 this.saveData(data, dataName, 'user-reply');
-                this.clearInputValue();
+                (dataName === 'mainMessage') ? this.clearInputValue() : null;
             } else {
                 // this.saveData(' ', dataName, 'user-reply');
                 alert("Please type something before you send !");
@@ -176,7 +177,6 @@ class Message {
     }
 
     renderUserMessage(message, from = 'mainMessage') {
-
         if (from === 'mainMessage'){
 
             if (message) {
@@ -184,7 +184,7 @@ class Message {
                     <li class="user-reply">
                         <p class="user-reply-abbreviation">R</p>
                         <div class="user-text">
-                            ${message}
+                            ${DOMPurify.sanitize(message)}
                         </div>
                     </li>
                 `);
@@ -198,7 +198,7 @@ class Message {
                     <li class="user-reply">
                         <p class="user-reply-abbreviation">R</p>
                         <div class="user-text">
-                            ${message}
+                            ${DOMPurify.sanitize(message)}
                         </div>
                     </li>
                 `);
@@ -209,50 +209,62 @@ class Message {
     }
 
     renderBotMessage( message, from = 'mainMessage', time = 500) {
+        
         setTimeout(() => {
             if (from === 'mainMessage'){
+                message = DOMPurify.sanitize(message);
                 $('.probReplyContainer').append(`
                 <li class="bot-reply">
                     <img src="./src/image/logo.png" alt="" width="125px">
                     <div class="bot-text">
-                        <p class="text-down">
-                            ${message}
-                        </p>
+                        ${message}
                     </div>
                 </li>
                 `)
                 $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
+                this.loadMainMessage();
             }else if (from === 'weatherMessage'){
+                let iconurl = "https://openweathermap.org/img/wn/" + message.weather[0].icon + "@2x.png";
                 $('.weatherReplyContainer').append(`
                 <li class="bot-reply">
                     <img src="./src/image/logo.png" alt="" width="125px">
                     <div class="bot-text">
-                        <p class="text-down">
-                            ${message}
-                        </p>
+                        Well, here is the weather today :
+                    </div>
+                    <div class="weather-card">
+                        <p class="country-name">${message.name}</p>
+                        <div class="climat">
+                            <img src="${iconurl}" alt="">
+                            <p>${message.weather[0].main}</p>
+                            
+                        </div>
+                        <p class="temperature">Temp ${message.main.temp}°C</p>
+                        <p class="humidity">Hudidity ${message.main.humidity}%</p>
                     </div>
                 </li>
                 
                 `)
-                $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
+                $('.weatherReplyContainer').scrollTop($('.weatherReplyContainer')[0].scrollHeight);
             }
-            this.loadMainMessage();
+
 
         }, time);
     }
 
     loadMainMessage(){
         this.mainMessage = this.loadData('mainMessage') || null;
-        const datas = this.mainMessage
+        const datas = this.mainMessage;
+        let message;
         if (datas){
             $('.probReplyContainer').empty();
             for ( let data of datas){   
+                message = DOMPurify.sanitize(data.message);
                 if (data.class === 'user-reply'){
                     $('.probReplyContainer').append(`
                         <li class="user-reply">
                             <p class="user-reply-abbreviation">R</p>
                             <div class="user-text">
-                                ${data.message}
+                                ${message}
                             </div>
                         </li>
                     `)
@@ -261,22 +273,78 @@ class Message {
                     <li class="bot-reply">
                         <img src="./src/image/logo.png" alt="" width="125px">
                         <div class="bot-text">
-                            <p class="text-down">
-                                ${data.message}
-                            </p>
+                            ${message}
                         </div>
                     </li>
                     `)
                 }
             }
+            $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
+        }
+
+    }
+    async generateBotMessage(userMessage, from) {
+        const apiUrl = 'https://api-fakell.x10.mx/v1/chat/completions/';
+        let botMessage;
+        const data = {
+            model: "gpt-3.5-turbo",
+            messages: [{"role": "user", "content": userMessage}],
+            stream: false
+        }
+
+        const requestOptions = {
+            method : 'POST',
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify(data) 
+        }
+
+        try{
+
+            const response = await fetch(apiUrl, requestOptions);
+            if (!response.ok){
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const responseData = await response.json();
+            botMessage = responseData.choices[0].message.content;
+            console.log(botMessage);
+            if (from === 'mainMessage'){
+                this.saveData(botMessage, "mainMessage", "bot-reply")
+            }else if (from === 'weatherMessage'){
+                this.saveData(botMessage, "weatherMessage", "bot-reply")
+            }
+            this.renderBotMessage(botMessage, from);
+        }catch (error){
+            console.log('Error:', error.message);
+            alert('Something went wrong, try again !')
+        }
+        
+    }
+
+    async getWeather(){
+        const units = 'metric';
+        const lang = 'en';
+        // const cityName = this.getInnputValue();
+        const cityName = 'Madagascar';
+        console.log('city : ' + cityName);
+        try{
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=b275b33dffe936abc144bfe7c2ba6678&units=${units}&lang=${lang}`);
+            const datas = await response.json();
+            console.log(datas);
+            this.renderBotMessage(datas, 'weatherMessage');
+        }catch(err){
+            alert('Err : ' + err.message);
+            console.log('Err : ' + err.message);
         }
 
     }
 
-    // clearHistory(item){
-    //     localStorage.removeItem(item);
-    //     this.mainMessage = [];
-    // }
+
+
+    getInnputValue(){
+        return $(this.input).val().trim();
+    }
 
     getMainMessage(){
         return this.mainMessage;
@@ -286,32 +354,7 @@ class Message {
         return this.apiMessage;
     }
 
-    generateBotMessage(userMessage, from) {
-        const url = 'https://api-fakell.x10.mx/v1/chat/completions/';
-
-        const data = {
-            "model": "gpt-3.5-turbo",
-            "messages": [{"role": "user", "content": "Hello, how are you?"}],
-            "stream": false
-        }
-
-        const requestOption = {
-            method : 'POST',
-            headers : {
-                'Content-Type': 'application/json'
-            },
-            body : JSON.stringify(data) 
-        }
-
-        
-
-        if (from === 'mainMessage'){
-            this.saveData("message", "mainMessage", "bot-reply")
-        }else if (from === 'weatherMessage'){
-            this.saveData("message", "weatherMessage", "bot-reply")
-        }
-        this.renderBotMessage("message", from);
-    }
+    
     
     clearInputValue() {
         $(this.input).val('');
@@ -328,7 +371,6 @@ class Message {
             this.apiMessage.push(data);
             localStorage.setItem(dataName, JSON.stringify(this.apiMessage));
         }
-        console.log('Data saved');
     }
 
     loadData(dataName) {
@@ -389,4 +431,13 @@ $('#sendProbPrompt').click(function (e) {
 $('#sendApiPrompt').click(function () {
     userPrompt = $('#ApiPromptInput').val().trim();
     apiPrompt.sendMessage('other', userPrompt, 'weatherMessage');
+    apiPrompt.getWeather();
+    apiPrompt.clearInputValue();
 });
+
+function execute_once(){
+    if (!localStorage.getItem('rendered')) {
+        apiPrompt.renderBotMessage('Welcome to the weather API. What is your country Name', 'weatherMessage');
+        localStorage.setItem('rendered', true);
+    }
+}

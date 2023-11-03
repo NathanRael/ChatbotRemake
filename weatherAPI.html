@@ -8,52 +8,15 @@
     <script src="./src/frameworks/jquery-3.7.1.min.js" ></script>
     <link rel="stylesheet" href="./src/css/style.css">
     <script src="./src/js/main.js" defer></script>
+    <script src="/src/frameworks/purify.min.js"></script>
     <title>WeatherAPI</title>
 </head>
-<body>
+<body onload="execute_once()">
     <div class="btn-previous-container">
         <a href="/mainInterface.html" class="btn-previous"><i class="bi bi-arrow-left"></i></a>     
     </div>
-    <ul class="reply-container weatherReplyContainer">
-        <li class="bot-reply">
-            <!-- <p class="bot-reply-abbreviation">R</p> -->
-            <img src="./src/image/logo.png" alt="" width="125px">
-            <div class="bot-text">
-                <p class="text-down">
-                    Welcome to the WEATHER API mode :)
-                </p>
-                <p class="text-down">
-                    Before rendering the weather,I need your country name
-                </p>
-                <p class="text-down">
-                    What is your country name ?
-                </p>
-            </div>
-        </li>
-        <li class="user-reply">
-            <p class="user-reply-abbreviation">R</p>
-            <div class="user-text">
-                Madagascar
-            </div>
-        </li>
-        <li class="bot-reply">
-            <!-- <p class="bot-reply-abbreviation">R</p> -->
-            <img src="./src/image/logo.png" alt="" width="125px">
-            <div class="bot-text">
-                Well, here is the weather today :
-            </div>
-            <div class="weather-card">
-                <p class="country-name">Madagascar</p>
-                <p class="climat">
-                    <i class="bi bi-brightness-high"></i>
-                    Sunny
-                </p>
-                <p class="temperature">Temp 25°C</p>
-                <p class="humidity">Hudidity 23%</p>
-            </div>
-        </li>
 
-    </ul>
+    <ul class="reply-container weatherReplyContainer"></ul>
     
     <div class="user-input-container bottom-input">
         <input type="text" class="user-input" id="ApiPromptInput" placeholder="Type something ...">
@@ -83,6 +46,7 @@
             <i class="bi bi-x-lg close-popup"></i>
         </div>
         <hr>
+        
         <div class="setting-body">
             <div class="setting-body-profile">
                 <h2 class="setting-title">Profile</h2>
