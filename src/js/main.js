@@ -134,9 +134,10 @@ $('.user-logout').click(() => {
     window.location.href = '/index.html';
 });
 
-// $('clearStorage').click(()=>{
-//     localStorage.removeItem('mainMessage');
-// })
+$('.btn-clear-history').click(()=>{
+    localStorage.removeItem('mainMessage');
+    alert('History deleted');
+})
 
 /***Input ****/
 class Message {
@@ -286,6 +287,24 @@ class Message {
     }
 
     generateBotMessage(userMessage, from) {
+        const url = 'https://api-fakell.x10.mx/v1/chat/completions/';
+
+        const data = {
+            "model": "gpt-3.5-turbo",
+            "messages": [{"role": "user", "content": "Hello, how are you?"}],
+            "stream": false
+        }
+
+        const requestOption = {
+            method : 'POST',
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify(data) 
+        }
+
+        
+
         if (from === 'mainMessage'){
             this.saveData("message", "mainMessage", "bot-reply")
         }else if (from === 'weatherMessage'){
