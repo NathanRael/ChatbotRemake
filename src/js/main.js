@@ -138,12 +138,13 @@ $('.user-logout').click(() => {
 class Message {
     input;
     button;
-    mainMessage = this.loadData('mainMessage') || null;
+    mainMessage = this.loadData('mainMessage') || [];
     apiMessage = [];
 
     constructor(input, button) {
         this.input = input;
         this.button = button;
+        this.mainMessage || this.loadMainMessage();
         
         
     }
@@ -335,10 +336,9 @@ $('#sendMainPrompt').click(function () {
 
 });
 if (first_sent === 'true'){
-    datas = mainPrompt.loadData('mainMessage')[0].message || null;
+    datas = mainPrompt.loadData('mainMessage')[0].message;
     console.log(datas)
     if (datas){
-
         mainPrompt.renderUserMessage(datas, 'mainMessage' );
         mainPrompt.generateBotMessage(userPrompt, 'mainMessage');
         first_sent = 'false';
