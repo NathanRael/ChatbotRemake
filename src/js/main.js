@@ -138,12 +138,14 @@ $('.user-logout').click(() => {
 class Message {
     input;
     button;
-    mainMessage = this.loadData('mainMessage') || [];
+    mainMessage = this.loadData('mainMessage') || null;
     apiMessage = [];
 
     constructor(input, button) {
         this.input = input;
         this.button = button;
+        
+        
     }
 
     sendMessage(from = 'other', data, dataName) {
@@ -152,7 +154,7 @@ class Message {
                 this.saveData(data, dataName, 'user-reply');
                 this.clearInputValue();
             } else {
-                this.saveData(' ', dataName, 'user-reply');
+                // this.saveData(' ', dataName, 'user-reply');
                 alert("Please type something before you send !");
             }
 
@@ -313,23 +315,39 @@ $('.prompt-example').click(function () {
     }
 });
 
+
+
 // Create instances and set up message sending
 let mainPrompt = new Message('#mainPromptInput', '#sendMainPrompt');
 let probPrompt = new Message('#probPromptInput', '#sendProbPrompt');
 let apiPrompt = new Message('#ApiPromptInput', '#sendApiPrompt');
 let userPrompt;
 let datas;
+let first_sent = localStorage.getItem('firstSent') || 'false' ;
+localStorage.setItem('firstSent', first_sent);
 
 $('#sendMainPrompt').click(function () {
     userPrompt = $('#mainPromptInput').val().trim();
     mainPrompt.sendMessage('main', userPrompt, 'mainMessage');
+    first_sent = 'true';
+    localStorage.setItem('firstSent', first_sent);
 
 
 });
-datas = mainPrompt.loadData('mainMessage')[0].message || '';
-console.log(datas)
-mainPrompt.renderUserMessage(datas, 'mainMessage' );
-mainPrompt.generateBotMessage(userPrompt, 'mainMessage');
+if (first_sent === 'true'){
+    datas = mainPrompt.loadData('mainMessage')[0].message || null;
+    console.log(datas)
+    if (datas){
+
+        mainPrompt.renderUserMessage(datas, 'mainMessage' );
+        mainPrompt.generateBotMessage(userPrompt, 'mainMessage');
+        first_sent = 'false';
+        localStorage.setItem('firstSent', first_sent);
+    }
+}
+
+
+
 
 
 $('#sendProbPrompt').click(function (e) {
