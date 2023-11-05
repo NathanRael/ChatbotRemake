@@ -5,7 +5,8 @@ Remake of the last chatBot web app
 
 - New UI/UX desing
 - User Interaction
-- External API
+- GPT 2.5 API 
+- Weather API
   
 ## Installation
 
