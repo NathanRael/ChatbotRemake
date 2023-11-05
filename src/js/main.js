@@ -149,12 +149,13 @@ class Message {
     input;
     button;
     mainMessage = this.loadData('mainMessage') || [];
-    apiMessage = [];
+    weatherMessage = this.loadData('weatherMessage') || [];
 
     constructor(input, button) {
         this.input = input;
         this.button = button;
         (this.mainMessage.length > 0) && this.loadMainMessage();
+        (this.weatherMessage.length > 0) && this.loadWeatherMessage();
 
     }
 
@@ -230,16 +231,6 @@ ${mess}
                     </div>
                 </li>
             `);
-            
-                // $('.probReplyContainer').append(`
-                // <li class="bot-reply">
-                //     <img src="./src/image/logo.png" alt="" width="125px">
-                //     <div class="bot-text">
-                //         ${message}
-                //     </div>
-                // </li>
-                // `)
-                // $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
                 this.loadMainMessage();
             }else if (from === 'weatherMessage'){
                 let iconurl = "https://openweathermap.org/img/wn/" + message.weather[0].icon + "@2x.png" || [];
@@ -260,16 +251,21 @@ ${mess}
                         <p class="humidity">Hudidity ${message.main.humidity}%</p>
                     </div>
                     <div class="bot-text">
-                        Which coutry's weather do you want to find ?
+                        If you want to find another country's weather, you can type it
                     </div>
                 </li>
                 
                 `)
                 // $('.weatherReplyContainer').scrollTop($('.weatherReplyContainer')[0].scrollHeight);
+                let data = [
+                    message.name, iconurl, message.weather[0].main, message.main.temp, message.main.humidity
+                ] 
+                this.saveData(data, "weatherMessage", "bot-reply", "climat");
             }
 
 
         }, time);
+        
     }
 
     loadMainMessage(){
@@ -310,6 +306,64 @@ ${splitedMess.map(mess => `
         }
 
     }
+
+    loadWeatherMessage(){
+        this.weatherMessage =  this.loadData("weatherMessage") || null;
+        const datas = this.weatherMessage;
+        let message;
+        if (datas){
+            $('.weatherReplyContainer').empty();
+            for ( let data of datas){   
+                message = DOMPurify.sanitize(data.message);
+                if (data.class === 'user-reply'){
+                    $('.weatherReplyContainer').append(`
+                        <li class="user-reply">
+                            <p class="user-reply-abbreviation">R</p>
+                            <div class="user-text">
+                                ${message}
+                            </div>
+                        </li>
+                    `)
+                }else if (data.class === 'bot-reply'){
+                    if (data.by === 'climat'){
+                        $('.weatherReplyContainer').append(`
+                            <li class="bot-reply">
+                                <img src="./src/image/logo.png" alt="" width="125px">
+                                <div class="bot-text">
+                                    Well, here is the weather today :
+                                </div>
+                                <div class="weather-card">
+                                    <p class="country-name">${data.message[0]}</p>
+                                    <div class="climat">
+                                        <img src="${data.message[1]}" alt="">
+                                        <p>${data.message[2]}</p>
+
+                                    </div>
+                                    <p class="temperature">Temp ${data.message[3]}°C</p>
+                                    <p class="humidity">Hudidity ${data.message[4]}%</p>
+                                </div>
+                                <div class="bot-text">
+                                    If you want to find another country's weather, you can type it
+                                </div>
+                            </li>
+
+                        `)
+                    }else{
+                        $('.weatherReplyContainer').append(`
+                            <li class="bot-reply">
+                                <img src="./src/image/logo.png" alt="" width="125px">
+                                <div class="bot-text">
+                                    ${message}
+                                </div>
+                            </li>
+                        `);
+                    }
+                }
+            }
+        }
+    }
+
+    
 
     async generateBotMessage(userMessage, from) {
         const apiUrl = 'https://api-fakell.x10.mx/v1/chat/completions/';
@@ -383,7 +437,7 @@ ${splitedMess.map(mess => `
         $(this.input).val('');
     }
 
-    saveData(data, dataName, className) {
+    saveData(data, dataName, className, by = "") {
         if (dataName === 'mainMessage'){
             this.mainMessage.push(
                 {class : className, message : data}
@@ -391,8 +445,10 @@ ${splitedMess.map(mess => `
             localStorage.setItem(dataName, JSON.stringify(this.mainMessage));
 
         }else if (dataName === 'weatherMessage'){
-            this.apiMessage.push(data);
-            localStorage.setItem(dataName, JSON.stringify(this.apiMessage));
+            this.weatherMessage.push(
+                {class : className, message : data, by : by}
+            );
+            localStorage.setItem(dataName, JSON.stringify(this.weatherMessage));
         }
     }
 
@@ -457,9 +513,21 @@ $('#sendApiPrompt').click(function () {
     apiPrompt.clearInputValue();
 });
 
-function execute_once(){
-    if (!localStorage.getItem('rendered')) {
-        apiPrompt.renderBotMessage('Welcome to the weather API. What is your country Name', 'weatherMessage');
-        localStorage.setItem('rendered', true);
+function execute_once(){//once execution
+    if (!localStorage.getItem('2')) {
+        $('.weatherReplyContainer').append(`
+                <li class="bot-reply">
+                    <img src="./src/image/logo.png" alt="" width="125px">
+                    <div class="bot-text">
+                       <div class="text-down"> Hello, welcome to the weather API mode, </div>
+                       <div class="text-down">Please type your country : </div>
+                    </div>
+        `)
+        apiPrompt.saveData("Hello, welcome to the weather API mode,Please type your country : ", "weatherMessage", "bot-reply");
+        localStorage.setItem('2', true);
     }
+}
+
+if (window.location.href.includes('weatherAPI.html')){
+    execute_once();
 }
