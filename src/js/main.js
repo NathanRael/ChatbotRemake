@@ -140,7 +140,9 @@ $('.user-logout').click(() => {
 
 $('.btn-clear-history').click(()=>{
     localStorage.removeItem('mainMessage');
-    $('.probReplyContainer').empty();
+    localStorage.removeItem('weather');
+    $('.probReplyContainer').empty() || alert("You should enter into the page");
+    $('.weatherReplyContainer').empty() || alert("You should enter into the page");
     alert('History deleted');
 })
 
@@ -231,7 +233,7 @@ ${mess}
                     </div>
                 </li>
             `);
-                this.loadMainMessage();
+                // this.loadMainMessage();
             }else if (from === 'weatherMessage'){
                 let iconurl = "https://openweathermap.org/img/wn/" + message.weather[0].icon + "@2x.png" || [];
                 $('.weatherReplyContainer').append(`
@@ -473,27 +475,32 @@ let probPrompt = new Message('#probPromptInput', '#sendProbPrompt');
 let apiPrompt = new Message('#ApiPromptInput', '#sendApiPrompt');
 let userPrompt;
 let datas;
-let first_sent = localStorage.getItem('firstSent') || 'false' ;
-localStorage.setItem('firstSent', first_sent);
+
 
 $('#sendMainPrompt').click(function () {
     userPrompt = $('#mainPromptInput').val().trim();
     mainPrompt.sendMessage('main', userPrompt, 'mainMessage');
-    first_sent = 'true';
-    localStorage.setItem('firstSent', first_sent);
+
 
 });
-if (first_sent === 'true'){
-    datas = mainPrompt.loadData('mainMessage')[0].message || null;
-    console.log(datas)
-    if (datas){
-
-        mainPrompt.renderUserMessage(datas, 'mainMessage' );
+if (window.location.href.includes('problemSolverInterface')){
+    if (!localStorage.getItem('1')){
+        datas = mainPrompt.loadData('mainMessage')[0].message || null;
+        console.log(datas)
+        if (datas){
+    
+            mainPrompt.renderUserMessage(datas, 'mainMessage' );
+            mainPrompt.generateBotMessage(datas, 'mainMessage');
+        }
+        localStorage.setItem('1', true);
+    }else{
+        mainPrompt.renderUserMessage(userPrompt, 'mainMessage');
         mainPrompt.generateBotMessage(userPrompt, 'mainMessage');
-        first_sent = 'false';
-        localStorage.setItem('firstSent', first_sent);
     }
 }
+
+
+
 
 
 
@@ -528,6 +535,15 @@ function execute_once(){//once execution
     }
 }
 
-if (window.location.href.includes('weatherAPI.html')){
+if (window.location.href.includes('weatherAPI')){
     execute_once();
 }
+
+function hide_overflow(){
+    const url = window.location.href;
+    if (url.includes('weatherAPI') || url.includes('problemSolverInterface') ){
+        $('body').css("overflow", "hidden");
+    }
+}
+
+hide_overflow();
