@@ -189,7 +189,7 @@ class Message {
                     </li>
                 `);
                 
-                $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
+                // $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
 
             }
         }else if (from = 'weatherMessage'){
@@ -202,7 +202,7 @@ class Message {
                         </div>
                     </li>
                 `);
-                $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
+                // $('.weatherReplyContainer').scrollTop($('.weatherReplyContainer')[0].scrollHeight);
             }
         }
 
@@ -221,7 +221,7 @@ class Message {
                     </div>
                 </li>
                 `)
-                $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
+                // $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
                 this.loadMainMessage();
             }else if (from === 'weatherMessage'){
                 let iconurl = "https://openweathermap.org/img/wn/" + message.weather[0].icon + "@2x.png";
@@ -241,10 +241,13 @@ class Message {
                         <p class="temperature">Temp ${message.main.temp}°C</p>
                         <p class="humidity">Hudidity ${message.main.humidity}%</p>
                     </div>
+                    <div class="bot-text">
+                        Which coutry's weather do you want to find ?
+                    </div>
                 </li>
                 
                 `)
-                $('.weatherReplyContainer').scrollTop($('.weatherReplyContainer')[0].scrollHeight);
+                // $('.weatherReplyContainer').scrollTop($('.weatherReplyContainer')[0].scrollHeight);
             }
 
 
@@ -279,7 +282,7 @@ class Message {
                     `)
                 }
             }
-            $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
+            // $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
         }
 
     }
@@ -325,8 +328,7 @@ class Message {
     async getWeather(){
         const units = 'metric';
         const lang = 'en';
-        // const cityName = this.getInnputValue();
-        const cityName = 'Madagascar';
+        const cityName = this.getInnputValue() || 'Madagascar';
         console.log('city : ' + cityName);
         try{
             const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=b275b33dffe936abc144bfe7c2ba6678&units=${units}&lang=${lang}`);
@@ -431,6 +433,7 @@ $('#sendProbPrompt').click(function (e) {
 $('#sendApiPrompt').click(function () {
     userPrompt = $('#ApiPromptInput').val().trim();
     apiPrompt.sendMessage('other', userPrompt, 'weatherMessage');
+    apiPrompt.renderUserMessage(userPrompt, 'weatherMessage' );
     apiPrompt.getWeather();
     apiPrompt.clearInputValue();
 });
