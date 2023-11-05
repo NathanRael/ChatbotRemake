@@ -242,7 +242,7 @@ ${mess}
                 // $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
                 this.loadMainMessage();
             }else if (from === 'weatherMessage'){
-                let iconurl = "https://openweathermap.org/img/wn/" + message.weather[0].icon + "@2x.png";
+                let iconurl = "https://openweathermap.org/img/wn/" + message.weather[0].icon + "@2x.png" || [];
                 $('.weatherReplyContainer').append(`
                 <li class="bot-reply">
                     <img src="./src/image/logo.png" alt="" width="125px">
