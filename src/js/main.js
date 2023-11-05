@@ -144,14 +144,14 @@ $('.btn-clear-history').click(()=>{
 class Message {
     input;
     button;
-    mainMessage = this.loadData('mainMessage') || null;
+    mainMessage = this.loadData('mainMessage') || [];
     apiMessage = [];
 
     constructor(input, button) {
         this.input = input;
         this.button = button;
-        
-        
+        (this.mainMessage.length > 0) && this.loadMainMessage();
+
     }
 
     sendMessage(from = 'other', data, dataName) {
@@ -354,15 +354,6 @@ class Message {
         return this.apiMessage;
     }
 
-    generateBotMessage(userMessage, from) {
-        if (from === 'mainMessage'){
-            this.saveData("message", "mainMessage", "bot-reply")
-        }else if (from === 'weatherMessage'){
-            this.saveData("message", "weatherMessage", "bot-reply")
-        }
-        this.renderBotMessage("message", from);
-    }
-    
     clearInputValue() {
         $(this.input).val('');
     }
@@ -411,7 +402,6 @@ $('#sendMainPrompt').click(function () {
     first_sent = 'true';
     localStorage.setItem('firstSent', first_sent);
 
-
 });
 if (first_sent === 'true'){
     datas = mainPrompt.loadData('mainMessage')[0].message || null;
@@ -424,8 +414,6 @@ if (first_sent === 'true'){
         localStorage.setItem('firstSent', first_sent);
     }
 }
-
-
 
 
 

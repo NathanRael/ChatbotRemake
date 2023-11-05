@@ -457,7 +457,7 @@ body::-webkit-scrollbar{
 
 
 .user-reply-abbreviation, .bot-reply-abbreviation{
-    background-color: var(text-color);
+    background-color: var(--text-color);
     width: 52px;
     height: 52px;
     display: flex;
