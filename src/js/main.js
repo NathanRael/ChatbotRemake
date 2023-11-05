@@ -1,7 +1,5 @@
 
 
-
-
 /******Toggle index popup **********/
 
 class ToggleMainButton {
@@ -138,12 +136,15 @@ $('.user-logout').click(() => {
     window.location.href = '/index.html';
 });
 
-$('.btn-clear-history').click(()=>{
+$('.btn-clear-history').click(()=>{//clearing all history
     localStorage.removeItem('mainMessage');
     localStorage.removeItem('weather');
+    localStorage.removeItem('1');//removing the execute once localstorage
+    localStorage.removeItem('2');//removing the execute once localstorage
     $('.probReplyContainer').empty() || alert("You should enter into the page");
     $('.weatherReplyContainer').empty() || alert("You should enter into the page");
     alert('History deleted');
+    window.location.href = '/mainInterface.html';
 })
 
 /***Input ****/
@@ -475,29 +476,37 @@ let probPrompt = new Message('#probPromptInput', '#sendProbPrompt');
 let apiPrompt = new Message('#ApiPromptInput', '#sendApiPrompt');
 let userPrompt;
 let datas;
-
+let first_sent = localStorage.getItem('firstSent') || 'false' ;
+localStorage.setItem('firstSent', first_sent);
 
 $('#sendMainPrompt').click(function () {
     userPrompt = $('#mainPromptInput').val().trim();
     mainPrompt.sendMessage('main', userPrompt, 'mainMessage');
-
+    first_sent = 'true';
+    localStorage.setItem('firstSent', first_sent);
 
 });
+
 if (window.location.href.includes('problemSolverInterface')){
-    if (!localStorage.getItem('1')){
-        datas = mainPrompt.loadData('mainMessage')[0].message || null;
-        console.log(datas)
+    if (!localStorage.getItem('1')){//execute once
+        datas = mainPrompt.loadData('mainMessage')[0].message || "hello";
         if (datas){
     
             mainPrompt.renderUserMessage(datas, 'mainMessage' );
             mainPrompt.generateBotMessage(datas, 'mainMessage');
         }
         localStorage.setItem('1', true);
-    }else{
-        mainPrompt.renderUserMessage(userPrompt, 'mainMessage');
-        mainPrompt.generateBotMessage(userPrompt, 'mainMessage');
+    }else{//execute whether the user have already send  at least 1 message in the main Input
+        if (first_sent === 'true'){
+            mainPrompt.renderUserMessage(userPrompt, 'mainMessage');
+            mainPrompt.generateBotMessage(userPrompt, 'mainMessage');
+            first_sent = 'false';
+            localStorage.setItem('firstSent', first_sent);
+        }
+
     }
 }
+
 
 
 
@@ -539,11 +548,11 @@ if (window.location.href.includes('weatherAPI')){
     execute_once();
 }
 
-function hide_overflow(){
-    const url = window.location.href;
-    if (url.includes('weatherAPI') || url.includes('problemSolverInterface') ){
-        $('body').css("overflow", "hidden");
-    }
-}
+// function hide_overflow(){
+//     const url = window.location.href;
+//     if (url.includes('weatherAPI') || url.includes('problemSolverInterface') ){
+//         $('body').css("overflow", "hidden");
+//     }
+// }
 
-hide_overflow();
+// hide_overflow();
