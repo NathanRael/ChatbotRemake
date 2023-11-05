@@ -8,6 +8,7 @@
         <script src="./src/frameworks/jquery-3.7.1.min.js" ></script>
         <link rel="stylesheet" href="./src/css/style.css">
         <script src="./src/js/main.js" defer></script>
+        <script src="/src/frameworks/purify.min.js"></script>
     
         <title>Main</title>
     </head>
@@ -75,7 +76,6 @@
             <h2 class="setting-header-text">Setting</h2>
             <i class="bi bi-x-lg close-popup"></i>
         </div>
-        <hr>
         <div class="setting-body">
             <div class="setting-body-profile">
                 <h2 class="setting-title">Profile</h2>
@@ -87,19 +87,19 @@
                     <i class="bi bi-pencil-square"></i>
                     Edit profile
                 </button>
-                <hr>
+                <div class="line"></div>
             </div>
 
             <div class="setting-body-other">
                 <h1 class="setting-title">Other</h1>
                 <div class="clear-history">
                     <p class="clear-history-text">Clear all history</p>
-                    <button class=" btn-clear-history">
+                    <button class=" btn-clear-history" id="clearStorage">
                         <i class="bi bi-trash"></i>
                         Clear
                     </button>
                 </div>
-                <hr>
+                <div class="line"></div>
                 <div class="dark-mode">
                     <div class="dark-mode-text">
                         Dark mode
@@ -109,8 +109,9 @@
                         <i class="bi bi-toggle-on"></i>
                     </label>
                 </div>
-                <hr>
+                <div class="line"></div>
             </div>
+            
             
         </div>
     </div>
@@ -119,7 +120,6 @@
             <h2 class="history-header-text">Hitory</h2>
             <i class="bi bi-x-lg close-popup"></i>
         </div>
-        <hr>
         <div class="history-body">
             <div class="history-body-date">
                 <h2 class="history-title">Today</h2>    
