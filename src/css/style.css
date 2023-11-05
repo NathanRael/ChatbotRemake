@@ -5,15 +5,18 @@
     --leads-fs : 20px;
     --sub-heading : 26px;
     --link-fs : 16px;
-    --body-secondary-fs : 14px;
+    --input-fs : 16px;
+    --body-secondary-fs : 16px;
 
     --primary-color : #2F414F;
     --secondary-color : #3894A3;
-    --third-color :   #C7DAD4;
+    --tertiary-color : #25323D;
     --text-color : #F1F1EF;
     --alert-color : #DD4238;
     --success-color : #3AA338;
-    --input-color : #25323D;
+
+    --input-color : #a7b6c4;
+    --input-text-color : #d6dadd;
     --black-color : #121414;
 
 }
@@ -55,7 +58,7 @@ body::-webkit-scrollbar{
     align-items: center;
     background-color: var(--secondary-color);
     color: var(--text-color);
-    font-size: var(--body);
+    font-size: var(--body-secondary-fs);
     padding: 16px 32px;
     border: solid 1px var(--secondary-color);
     border-radius: 32px;
@@ -79,10 +82,6 @@ body::-webkit-scrollbar{
     width: 110px;
     height: 47px;
 }
-
-/* .btn-login{
-    font-size: var(--body-secondary-fs);
-} */
 
 .hero{
     display: flex;
@@ -147,11 +146,11 @@ body::-webkit-scrollbar{
     width: 512px;
     height: 100vh;
     padding: 32px;
-    background-color: var(--input-color);
+    background-color: var(--tertiary-color);
     background-image: url('../image/login-style.svg');
     background-repeat: no-repeat;
     background-size: 512px;
-    border-radius: 32px 0 0 32px;
+    border-radius: 16px 0 0 16px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
     /* transition: all 0.3s ease-out; */
 }
@@ -190,20 +189,20 @@ body::-webkit-scrollbar{
 .form-input{
     outline: 0;
     background-color: transparent;
-    border: solid 1px var(--text-color);
-    border-radius: 32px;
+    border: solid 1px var(--input-color);
+    border-radius: 16px;
     padding: 16px 32px;
-    font-size: var(--body-fs);
-    color: var(--text-color);
+    font-size: var(--input-fs);
+    color: var(--input-text-color);
 }
 
 .form-input::placeholder{
-    color: var(--text-color);
+    color: var(--input-color);
 }
 
 .link{
     font-size: var(--link-fs);
-    color:var(--third-color);
+    color:var(--input-color);
     text-decoration: none;
     margin-left: 24px;
 }
@@ -217,7 +216,7 @@ body::-webkit-scrollbar{
 }
 
 .Or{
-    color: var(--text-color);
+    color: var(--input-color);
     font-size: var(--body-fs);
     text-align: center;
 }
@@ -251,6 +250,10 @@ body::-webkit-scrollbar{
     width: fit-content;
 }
 
+.prompt-example p{
+    font-size: var(--body-secondary-fs);
+}
+
 .prompt-example i{
     color: var(--secondary-color);
 }
@@ -260,7 +263,7 @@ body::-webkit-scrollbar{
     margin: 0 auto 72px auto;
     padding:8px;
     padding-left: 32px;
-    background-color: var(--input-color);
+    background-color: var(--tertiary-color);
     border-radius: 32px;
     width: 950px;
 }
@@ -269,8 +272,8 @@ body::-webkit-scrollbar{
     background-color: transparent;
     border: 0;
     outline: 0;
-    font-size:var(--body-fs);
-    color: var(--text-color);
+    font-size:var(--input-fs);
+    color: var(--input-text-color);
 }
 
 .user-input-container button{
@@ -287,7 +290,7 @@ body::-webkit-scrollbar{
 }
 
 .user-input::placeholder{
-    color: var(--text-color);
+    color: var(--input-color);
 }
 
 .customisation-card-container{
@@ -338,6 +341,15 @@ body::-webkit-scrollbar{
     margin-bottom: 56px;
 }
 
+.text-container .customisation-desc{
+    font-size: var(--body-secondary-fs);
+}
+
+.text-container .text-container-title{
+    font-size: var(--leads-fs);
+    letter-spacing: 0.05em;
+}
+
 /*****moving part*****/
 .moving-part{
     position: fixed;
@@ -364,6 +376,10 @@ body::-webkit-scrollbar{
     box-shadow: 0 6px 24 rgba(0, 0, 0, 0.2);
 
 }
+
+.user-abbreviation{
+    opacity: 50%;
+}
 .new-chat, .chat-history{
     display: none;
     position: absolute;
@@ -384,15 +400,16 @@ body::-webkit-scrollbar{
     top: 50%;
     right: 0;
     transform: translateY(-50%);
-    background-color: transparent;
+    opacity: 100%;
     border: solid 1px var(--secondary-color);
+    padding-left: 4px;
 }
 .user-setting{
     display: none;
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    background-color: transparent;
+    opacity: 100%;
     border: solid 1px var(--secondary-color);
 }
 
@@ -421,6 +438,7 @@ body::-webkit-scrollbar{
     width: 100%;
     height: 100vh;
     padding-bottom: 164px;
+    margin-top: 64px;
     overflow-y: scroll;
 }
 
@@ -433,11 +451,13 @@ body::-webkit-scrollbar{
     row-gap: 8px;
     color: var(--text-color);
     margin-bottom: 16px;
-    margin-top: 64px;
+    margin-top: 16px;
 }
 
+
+
 .user-reply-abbreviation, .bot-reply-abbreviation{
-    background-color: var(--third-color);
+    background-color: var(text-color);
     width: 52px;
     height: 52px;
     display: flex;
@@ -450,11 +470,22 @@ body::-webkit-scrollbar{
 
 .user-text, .bot-text{
     margin-left: 64px;
-    background-color: var(--input-color);
+    background-color: var(--tertiary-color);
     width: fit-content;
     padding: 32px;
     border-radius: 0 64px 64px;
     max-width: 720px;
+}
+
+/* .bot-text{
+    overflow-x: scroll;
+} */
+
+.bot-text pre{
+    width: 100%;
+    background-color: var(--black-color);
+    font-size: var(--body-secondary-fs);
+    border-radius: 32px;
 }
 
 .bot-reply{
@@ -501,6 +532,9 @@ body::-webkit-scrollbar{
 }
 
 .climat{
+    display: flex;
+    align-items: center;
+    
     margin-bottom: 16px;
     font-size: var(--sub-heading);
 }
@@ -536,13 +570,30 @@ body::-webkit-scrollbar{
     transform: translate(-50%, -50%);
     width: 918px;
     height: 602px;
-    border-radius: 32px;
-    background-color: var(--input-color);
+    border-radius: 16px;
+    background-color: var(--tertiary-color);
 }
 
+.line{
+    height: 1px;
+    background-color: var(--input-color);
+    width: 100%;
+    margin-bottom: 16px;
+}
 .setting-header, .history-header{
+    position: relative;
     display: flex;
     justify-content: space-between;
+}
+
+.setting-header::before, .history-header::before{
+    position: absolute;
+    content: "";
+    height: 1px;
+    background-color: var(--input-color);
+    width: 100%;
+    overflow: hidden;
+    bottom: -16px;
 }
 
 .setting-header-text, .history-header-text{
@@ -557,24 +608,34 @@ body::-webkit-scrollbar{
     cursor: pointer;
 }
 
+
+
 .setting-body, .history-body{
     display: flex;
     flex-direction: column;
     row-gap: 32px;
 }
 
+.setting-body-profile{
+    position: relative;
+}
+
+
+
 .setting-title, .history-title{
+    position: relative;
     border-radius: 32px;
     color: var(--text-color);
     text-align: center;
     margin:0 auto;
     margin-bottom: 24px;
     font-size: var(--body-fs);
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
     padding: 8px 16px;
     background-color: var(--secondary-color);
     width: fit-content;
 }
+
 
 .setting-input-group{
     display: flex;
@@ -585,16 +646,17 @@ body::-webkit-scrollbar{
 .setting-input-group input{
     width: 321px;
     padding: 16px 32px;
-    color: var(--text-color);
+    color: var(--input-text-color);
     background-color: transparent;
-    border: solid 1px var(--text-color);
-    border-radius: 32px;
+    border: solid 1px var(--input-color);
+    border-radius: 12px;
     outline:0;
     font-size: var(--body-fs);
 }
 
 .setting-input-group input::placeholder{
-    color: var(--text-color);
+    /* color: var(--text-color); */
+    color:var(--input-color);
 }
 
 .setting-btn-profile, .btn-clear-history{
@@ -602,16 +664,21 @@ body::-webkit-scrollbar{
     display: flex;
     column-gap: 8px;
     justify-content: center;
+    align-items: center;
     background-color: var(--success-color);
     color: var(--text-color);
     padding: 16px 32px;
     border-radius: 32px;
-    font-size: var(--body-fs);
+    font-size: var(--body-secondary-fs);
     border: solid 1px var(--success-color);
     margin: 0 auto;
     margin-bottom: 24px;
 
 }
+
+/* .setting-btn-profile i, .btn-clear-history i{
+    font-size: 24px;
+} */
 
 .setting-body-other hr{
     margin-bottom: 24px;
@@ -626,9 +693,11 @@ body::-webkit-scrollbar{
 
 
 .clear-history-text, .dark-mode-text{
+    position: relative;
     color:var(--text-color);
     font-size: var(--body-fs);
 }
+
 
 .btn-clear-history{
     margin: 0;
@@ -652,14 +721,14 @@ body::-webkit-scrollbar{
 }
 
 .history-date-content{
+    cursor: pointer;
     background-color: transparent;
     color: var(--text-color);
-    font-size: var(--body-fs);
+    font-size: var(--body-secondary-fs);
     border: solid 1px var(--secondary-color);
-    border-radius: 32px;
+    border-radius: 16px;
     padding: 16px 32px;
-    width: fit-content;
-    margin: 0 auto;
+    width: 100%;
     margin-bottom: 16px;
 }
 
