@@ -1,3 +1,7 @@
+
+
+
+
 /******Toggle index popup **********/
 
 class ToggleMainButton {
@@ -208,17 +212,33 @@ class Message {
     }
 
     renderBotMessage( message, from = 'mainMessage', time = 500) {
+        
         setTimeout(() => {
             if (from === 'mainMessage'){
                 message = DOMPurify.sanitize(message);
+                let splitedMess = message.split("```");
+
                 $('.probReplyContainer').append(`
                 <li class="bot-reply">
                     <img src="./src/image/logo.png" alt="" width="125px">
                     <div class="bot-text">
-                        ${message}
+${splitedMess.map(mess => `
+<code class="">
+${mess}
+</code>
+`).join(' ')}  
                     </div>
                 </li>
-                `)
+            `);
+            
+                // $('.probReplyContainer').append(`
+                // <li class="bot-reply">
+                //     <img src="./src/image/logo.png" alt="" width="125px">
+                //     <div class="bot-text">
+                //         ${message}
+                //     </div>
+                // </li>
+                // `)
                 // $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
                 this.loadMainMessage();
             }else if (from === 'weatherMessage'){
@@ -270,20 +290,27 @@ class Message {
                         </li>
                     `)
                 }else if (data.class === 'bot-reply'){
+                    let splitedMess = message.split(/```/);
+    
                     $('.probReplyContainer').append(`
-                    <li class="bot-reply">
-                        <img src="./src/image/logo.png" alt="" width="125px">
-                        <div class="bot-text">
-                            ${message}
-                        </div>
-                    </li>
-                    `)
+                        <li class="bot-reply">
+                            <img src="./src/image/logo.png" alt="" width="125px">
+                            <div class="bot-text">
+${splitedMess.map(mess => `
+<code class="">
+    ${mess}
+</code>
+`).join(' ')}  
+                            </div>
+                        </li>
+                    `);
                 }
             }
             // $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
         }
 
     }
+
     async generateBotMessage(userMessage, from) {
         const apiUrl = 'https://api-fakell.x10.mx/v1/chat/completions/';
         let botMessage;
@@ -340,8 +367,6 @@ class Message {
 
     }
 
-
-
     getInnputValue(){
         return $(this.input).val().trim();
     }
@@ -369,7 +394,6 @@ class Message {
             this.apiMessage.push(data);
             localStorage.setItem(dataName, JSON.stringify(this.apiMessage));
         }
-        console.log('Data saved');
     }
 
     loadData(dataName) {

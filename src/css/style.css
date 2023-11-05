@@ -477,15 +477,12 @@ body::-webkit-scrollbar{
     max-width: 720px;
 }
 
-/* .bot-text{
-    overflow-x: scroll;
-} */
 
-.bot-text pre{
+.bot-text code{
     width: 100%;
-    background-color: var(--black-color);
-    font-size: var(--body-secondary-fs);
+    height: fit-content;
     border-radius: 32px;
+    white-space: pre-wrap;
 }
 
 .bot-reply{
