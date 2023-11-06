@@ -4,35 +4,32 @@
 
 class ToggleMainButton {
     is_popup_toggled = false;
-    buttonName;
     popupName;
     fadeField;
 
-    constructor(buttonName, popupName, fadeField) {
-        this.buttonName = buttonName;
+    constructor(popupName, fadeField) {
+
         this.popupName = popupName;
         this.fadeField = fadeField;
     }
 
     animate() {
-        $(this.buttonName).click(() => {
-            !this.is_popup_toggled ? this.#togglePopup(this.popupName, 0, true) : null;
-            this.#toggleFadeField();
-        });
+        !this.is_popup_toggled ? this.togglePopup(this.popupName, 0, true) : null;
+        this.toggleFadeField();
     }
 
-    #togglePopup(popupName, position, isToggled) {
+    togglePopup(popupName = this.popupName, position, isToggled) {
         $(popupName).show().animate({
             "right": position,
         }, 500);
         this.is_popup_toggled = isToggled;
     }
 
-    #toggleFadeField() {
+    toggleFadeField() {
         if (this.is_popup_toggled) {
             $(this.fadeField).show()
                 .click(() => {
-                    this.#togglePopup(this.popupName, '-524px', false);
+                    this.togglePopup(this.popupName, '-524px', false);
                     $(this.fadeField).hide();
                 });
         }
@@ -40,16 +37,21 @@ class ToggleMainButton {
 }
 
 // Create instances and call methods
-let loginBtn = new ToggleMainButton('.btn-login', '.login-popup', '.fade-field');
-let signupBtn = new ToggleMainButton('.btn-signup', '.signup-popup', '.fade-field');
-loginBtn.animate();
-signupBtn.animate();
+let loginBtn = new ToggleMainButton('.login-popup', '.fade-field');
+let signupBtn = new ToggleMainButton('.signup-popup', '.fade-field');
+
+
+$('.btn-login').click(()=>{
+    loginBtn.animate();
+})
+$('.btn-signup').click(()=>{
+    signupBtn.animate();
+})
+;
 
 $('.close-form').click(function (){
-    $(this).parent(0).animate({
-        "right" : "-524px"
-    }).hide();
-    // $('.fade-field').hide();
+    let closeForm = new ToggleMainButton($(this).parent(0), 'fade-field' );
+    closeForm.togglePopup($(this).parent(0), '-524px',true);
 })
 
 

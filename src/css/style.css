@@ -793,6 +793,10 @@ body::-webkit-scrollbar{
         justify-content: space-between; 
         margin: 0 auto;
     }
+
+    .user-input-container, .setting-popup{
+        width: 95%;
+    }
 }
 
 @media screen and (max-width : 768px) {
@@ -800,9 +804,14 @@ body::-webkit-scrollbar{
         display: none;
     }
 
+
+
 }
 
 @media screen and (max-width : 576px) {
+    body{
+        overflow:hidden;
+    }
     :root{
         --body-fs : 12px;
     }
@@ -823,5 +832,44 @@ body::-webkit-scrollbar{
 
     .btn-group{
         width: 100%;
+    }
+    .customisation-card-container{
+        flex-direction: column;
+        row-gap: 32px;
+    }
+
+    #sendMainPrompt, #sendProbPrompt, #sendApiPrompt{
+        width: 32px;
+        height: 32px;
+    }
+
+    .history-popup{
+        width: 95%;
+    }
+
+    .setting-input-group{
+        flex-direction: column;
+        row-gap: 16px;
+    }
+
+    .setting-input-group input{
+        width: 100%;
+    }
+
+    .bot-reply img{
+        width: 64px;
+    }
+
+    .bot-text{
+        margin-right: 16px;
+    }
+    .user-text{
+        margin-left: 16px;
+    }
+
+    .user-reply-abbreviation{
+        width: 32px;
+        height: 32px;
+        font-size: var(--leads-fs);
     }
 }
