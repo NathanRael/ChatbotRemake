@@ -1,12 +1,12 @@
 /**************root*********************/
 :root{
-    --title-fs : 34px;
-    --body-fs : 18px;
-    --leads-fs : 20px;
-    --sub-heading : 26px;
-    --link-fs : 16px;
-    --input-fs : 16px;
-    --body-secondary-fs : 16px;
+    --title-fs : 2.125em;
+    --body-fs : 16px;
+    --leads-fs : 1.25em;
+    --sub-heading : 1.625em;
+    --link-fs : 1em;
+    --input-fs : 1em;
+    --body-secondary-fs : 1em;
 
     --primary-color : #2F414F;
     --secondary-color : #3894A3;
@@ -19,6 +19,10 @@
     --input-text-color : #d6dadd;
     --black-color : #121414;
 
+}
+
+body{
+    font-size: var(--body-fs);
 }
 
 @font-face {
@@ -131,6 +135,15 @@ body::-webkit-scrollbar{
 }
 
 /***login & signup ***/
+.close-form{
+    cursor: pointer;
+    display: none;
+    color: var(--text-color);
+    font-size: var(--leads-fs);
+    position: absolute;
+    top: 32px;
+    right: 32px;
+}
 .fade-field{
     display: none;
     position: absolute;
@@ -203,7 +216,7 @@ body::-webkit-scrollbar{
 
 .link{
     font-size: var(--link-fs);
-    color:var(--input-color);
+    color: var(--secondary-color);
     text-decoration: none;
     margin-left: 24px;
 }
@@ -743,5 +756,72 @@ body::-webkit-scrollbar{
 
     .bottom-moving-part{
         bottom: 128px;
+    }
+}
+
+@media screen  and (max-width: 1024px){
+    :root{
+        --body-fs : 14px;
+    }
+
+    body{
+        padding: 0 16px;
+        margin: auto;
+        overflow-x: hidden;
+    }
+    
+}
+
+@media screen and (max-width : 992px) {
+    .hero{
+        flex-direction: column;
+    }
+
+    .hero-right{
+        display: flex;
+        justify-content: center;
+        margin-top: 48px;
+    }
+    .hero-left{
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero-btn-contrainer{
+        width: fit-content;
+        justify-content: space-between; 
+        margin: 0 auto;
+    }
+}
+
+@media screen and (max-width : 768px) {
+    .hero-right{
+        display: none;
+    }
+
+}
+
+@media screen and (max-width : 576px) {
+    :root{
+        --body-fs : 12px;
+    }
+
+    .close-form{
+        display: block;
+    }
+    .login-popup, .signup-popup{
+        right: -150%;
+        width: 100%;
+        border-radius: 0;
+    }
+
+    .login-popup  .input-group, .signup-popup .input-group{
+        width: 100%;
+
+    }
+
+    .btn-group{
+        width: 100%;
     }
 }

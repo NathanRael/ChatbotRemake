@@ -42,9 +42,15 @@ class ToggleMainButton {
 // Create instances and call methods
 let loginBtn = new ToggleMainButton('.btn-login', '.login-popup', '.fade-field');
 let signupBtn = new ToggleMainButton('.btn-signup', '.signup-popup', '.fade-field');
-
 loginBtn.animate();
 signupBtn.animate();
+
+$('.close-form').click(function (){
+    $(this).parent(0).animate({
+        "right" : "-524px"
+    }).hide();
+    // $('.fade-field').hide();
+})
 
 
 /******toggle setting&hitory popup**** */
