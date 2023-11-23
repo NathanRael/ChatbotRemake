@@ -146,7 +146,7 @@ $('.user-logout').click(() => {
 
 $('.btn-clear-history').click(()=>{//clearing all history
     localStorage.removeItem('mainMessage');
-    localStorage.removeItem('weather');
+    localStorage.removeItem('weatherMessage');
     localStorage.removeItem('1');//removing the execute once localstorage
     localStorage.removeItem('2');//removing the execute once localstorage
     $('.probReplyContainer').empty() || alert("You should enter into the page");
@@ -176,7 +176,6 @@ class Message {
                 this.saveData(data, dataName, 'user-reply');
                 (dataName === 'mainMessage') ? this.clearInputValue() : null;
             } else {
-                // this.saveData(' ', dataName, 'user-reply');
                 alert("Please type something before you send !");
             }
 
@@ -189,39 +188,10 @@ class Message {
                 alert("Please type something before you send !");
             }
         }
+        (this.mainMessage.length > 0) && this.loadMainMessage();
+        (this.weatherMessage.length > 0) && this.loadWeatherMessage();
     }
 
-    renderUserMessage(message, from = 'mainMessage') {
-        if (from === 'mainMessage'){
-
-            if (message) {
-                $('.probReplyContainer').append(`
-                    <li class="user-reply">
-                        <p class="user-reply-abbreviation">R</p>
-                        <div class="user-text">
-                            ${DOMPurify.sanitize(message)}
-                        </div>
-                    </li>
-                `);
-                
-                $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
-
-            }
-        }else if (from = 'weatherMessage'){
-            if (message) {
-                $('.weatherReplyContainer').append(`
-                    <li class="user-reply">
-                        <p class="user-reply-abbreviation">R</p>
-                        <div class="user-text">
-                            ${DOMPurify.sanitize(message)}
-                        </div>
-                    </li>
-                `);
-                // $('.weatherReplyContainer').scrollTop($('.weatherReplyContainer')[0].scrollHeight);
-            }
-        }
-
-    }
 
     renderBotMessage( message, from = 'mainMessage', time = 500) {
         
@@ -242,7 +212,6 @@ ${mess}
                     </div>
                 </li>
             `);
-                // this.loadMainMessage();
             }else if (from === 'weatherMessage'){
                 let iconurl = "https://openweathermap.org/img/wn/" + message.weather[0].icon + "@2x.png" || [];
                 $('.weatherReplyContainer').append(`
@@ -267,13 +236,11 @@ ${mess}
                 </li>
                 
                 `)
-                // $('.weatherReplyContainer').scrollTop($('.weatherReplyContainer')[0].scrollHeight);
                 let data = [
                     message.name, iconurl, message.weather[0].main, message.main.temp, message.main.humidity
                 ] 
                 this.saveData(data, "weatherMessage", "bot-reply", "climat");
             }
-
 
         }, time);
         
@@ -313,7 +280,6 @@ ${splitedMess.map(mess => `
                     `);
                 }
             }
-            // $('.probReplyContainer').scrollTop($('.probReplyContainer')[0].scrollHeight);
         }
 
     }
@@ -374,8 +340,6 @@ ${splitedMess.map(mess => `
         }
     }
 
-    
-
     async generateBotMessage(userMessage, from) {
         const apiUrl = 'https://api-fakell.x10.mx/v1/chat/completions/';
         let botMessage;
@@ -400,6 +364,8 @@ ${splitedMess.map(mess => `
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const responseData = await response.json();
+
+            console.log("data : " + responseData);
             botMessage = responseData.choices[0].message.content;
             console.log(botMessage);
             if (from === 'mainMessage'){
@@ -410,7 +376,8 @@ ${splitedMess.map(mess => `
             this.renderBotMessage(botMessage, from);
         }catch (error){
             console.log('Error:', error.message);
-            alert('Something went wrong, try again !')
+            console.error('Full error object:', error);
+            alert('Error:' + (error.message.length > 50) ? error.message.slice(0, 50) : error.message );
         }
         
     }
@@ -418,13 +385,17 @@ ${splitedMess.map(mess => `
     async getWeather(){
         const units = 'metric';
         const lang = 'en';
-        const cityName = this.getInnputValue() || 'Madagascar';
+        const cityName = this.getInputValue() || 'Madagascar';
         console.log('city : ' + cityName);
         try{
             const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=b275b33dffe936abc144bfe7c2ba6678&units=${units}&lang=${lang}`);
             const datas = await response.json();
-            console.log(datas);
+            if(!response.ok) {
+                throw datas;
+            }
+
             this.renderBotMessage(datas, 'weatherMessage');
+
         }catch(err){
             alert('Err : ' + err.message);
             console.log('Err : ' + err.message);
@@ -432,7 +403,7 @@ ${splitedMess.map(mess => `
 
     }
 
-    getInnputValue(){
+    getInputValue(){
         return $(this.input).val().trim();
     }
 
@@ -499,14 +470,11 @@ if (window.location.href.includes('problemSolverInterface')){
     if (!localStorage.getItem('1')){//execute once
         datas = mainPrompt.loadData('mainMessage')[0].message || "hello";
         if (datas){
-    
-            mainPrompt.renderUserMessage(datas, 'mainMessage' );
             mainPrompt.generateBotMessage(datas, 'mainMessage');
         }
         localStorage.setItem('1', true);
     }else{//execute whether the user have already send  at least 1 message in the main Input
         if (first_sent === 'true'){
-            mainPrompt.renderUserMessage(userPrompt, 'mainMessage');
             mainPrompt.generateBotMessage(userPrompt, 'mainMessage');
             first_sent = 'false';
             localStorage.setItem('firstSent', first_sent);
@@ -516,23 +484,18 @@ if (window.location.href.includes('problemSolverInterface')){
 }
 
 
-
-
-
-
-
 $('#sendProbPrompt').click(function (e) {
     userPrompt = $('#probPromptInput').val().trim();
     probPrompt.sendMessage('other', userPrompt, 'mainMessage');
-    probPrompt.renderUserMessage(userPrompt);
     probPrompt.generateBotMessage(userPrompt, 'mainMessage');
 
 });
 
+/******************************************************** Weather API *************************/
+
 $('#sendApiPrompt').click(function () {
     userPrompt = $('#ApiPromptInput').val().trim();
     apiPrompt.sendMessage('other', userPrompt, 'weatherMessage');
-    apiPrompt.renderUserMessage(userPrompt, 'weatherMessage' );
     apiPrompt.getWeather();
     apiPrompt.clearInputValue();
 });
@@ -555,12 +518,3 @@ function execute_once(){//once execution
 if (window.location.href.includes('weatherAPI')){
     execute_once();
 }
-
-// function hide_overflow(){
-//     const url = window.location.href;
-//     if (url.includes('weatherAPI') || url.includes('problemSolverInterface') ){
-//         $('body').css("overflow", "hidden");
-//     }
-// }
-
-// hide_overflow();
