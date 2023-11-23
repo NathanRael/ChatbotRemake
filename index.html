@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head class="head">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./src/frameworks/bootstrap-icons.css">
-    <script src="./src/frameworks/jquery-3.7.1.min.js" ></script>
+    <script src="./src/frameworks/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="./src/css/style.css">
     <script src="./src/js/main.js" defer></script>
     <script src="/src/frameworks/purify.min.js"></script>
 
     <title>ChatBot 2.0</title>
 </head>
+
 <body>
+    <div class="information">
+        This login page doesn't work yet, you can just enter to the chatBot interface with out an account
+    </div>
     <header>
         <nav class="navbar">
             <img src="./src/image/logo.png" alt="Logo" class="logo">
-            <button class="btn btn-login" >Login</button>
+            <button class="btn btn-login">Login</button>
         </nav>
         <div class="hero">
             <div class="hero-left">
@@ -24,7 +29,7 @@
                     <h1 class="hero-title">YOUR EVERYDAY ASSISTANT</h1>
                     <p class="hero-lead">Rael is a chatBot designed to assist you throughout your everyday work</p>
                 </div>
- 
+
                 <div class="hero-btn-contrainer">
                     <button class="btn btn-login">Login</button>
                     <button class="btn-outlined btn-signup">Sign up</button>
@@ -35,8 +40,9 @@
             </div>
         </div>
     </header>
-    <div class="fade-field"></div>
 
+    <!----Popup---->
+    <div class="fade-field"></div>
     <div class="login-popup">
         <h1 class="form-title">Welcome back ...</h1>
         <div class="input-group">
@@ -75,9 +81,25 @@
         </div>
         <i class="bi bi-x-lg close-form"></i>
     </div>
-    <Footer>
+    <!----End Popup--->
+    <Footer class="footer">
         <small class="copyright">Copyright 2023 Natanael Ralaivoavy</small>
-        <small>| Ralaivoavy.natanael@gmail.com</small>
+        <div class="footer-icon-container">
+            <div class="icon-item">
+                <i class="bi bi-envelope-at-fill"></i>
+                <p >Ralaivoavy.natanael@gmail.com</p>
+            </div>
+            <div class="icon-item">
+                <i class="bi bi-github"></i>
+                <a href="https://github.com/NathanRael/" target="_blank">NathanRael</a>
+            </div>
+            <div class="icon-item">
+                <i class="bi bi-facebook"></i>
+                <p href="#">Ralaivoavy Natanael</p>
+            </div>
+        </div>
     </Footer>
+
 </body>
+
 </html>
