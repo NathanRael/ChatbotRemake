@@ -743,7 +743,19 @@ body::-webkit-scrollbar{
     margin-bottom: 16px;
 }
 
+footer{
+    color: var(--text-color);
+    width: max-content;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 32px;
 
+}
+
+.copyright{
+    color: var(--text-color);
+    text-align: center;
+}
 
 
 /**********media query**********/
