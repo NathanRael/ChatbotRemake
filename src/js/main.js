@@ -179,7 +179,7 @@ class Message{
                 
             }else{
                 this.saveData(messageName, USER_MESSAGE,`${isBot ? 'bot' : 'user'}-reply`, true);
-                this.getWeather();
+                this.getWeather(USER_MESSAGE);
                 this.loadWeatherMessage();
             }
 
@@ -237,10 +237,10 @@ class Message{
 
     }
     
-    async getWeather(){
+    async getWeather(userInput){
         const units = 'metric';
         const lang = 'en';
-        const cityName = this.getInputValue() || 'Madagascar';
+        const cityName = userInput || 'Madagascar';
         console.log('city : ' + cityName);
         try{
             const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=b275b33dffe936abc144bfe7c2ba6678&units=${units}&lang=${lang}`);
@@ -257,6 +257,8 @@ class Message{
         }catch(err){
             alert('Err : ' + err.message);
             console.log('Err : ' + err.message);
+        }finally{
+            this.loadWeatherMessage();
         }
 
     }
