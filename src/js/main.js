@@ -173,7 +173,7 @@ class Message {
 
     }
 
-    sendMessage(from = 'other', data, dataName) {
+    sendMessage(from, data, dataName) {
         if (from === 'other') {
             if (data) {
                 this.saveData(data, dataName, 'user-reply');
@@ -472,7 +472,7 @@ if (window.location.href.includes('problemSolverInterface')){
             mainPrompt.generateBotMessage(datas);
         }
         localStorage.setItem('1', true);
-    }else{//execute whether the user have already send  at least 1 message in the main Input
+    }else{//execute whether the user have already sent  at least 1 message in the main Input
         if (first_sent === 'true'){
             mainPrompt.generateBotMessage(userPrompt);
             first_sent = 'false';
