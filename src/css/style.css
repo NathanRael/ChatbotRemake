@@ -813,6 +813,12 @@ body::-webkit-scrollbar{
     .bottom-moving-part{
         bottom: 128px;
     }
+    .bot-text{
+        max-width: 1000px;
+    }
+    .user-text{
+        max-width: 1000px;
+    }
 }
 
 @media screen  and (max-width: 1024px){
@@ -824,6 +830,12 @@ body::-webkit-scrollbar{
         padding: 0 16px;
         margin: auto;
         overflow-x: hidden;
+    }
+    .bot-text{
+        max-width: 800px;
+    }
+    .user-text{
+        max-width: 800px;
     }
     
 }
@@ -853,11 +865,29 @@ body::-webkit-scrollbar{
     .user-input-container, .setting-popup{
         width: 95%;
     }
+    .bot-text{
+        margin-right: 0;
+        padding: 16px;
+        max-width: 600px;
+    }
+    .user-text{
+        margin-left: 16px;
+        max-width: 600px;
+    }
 }
 
 @media screen and (max-width : 768px) {
     .hero-right{
         display: none;
+    }
+    .bot-text{
+        margin-right: 0;
+        padding: 16px;
+        max-width: 500px;
+    }
+    .user-text{
+        margin-left: 16px;
+        max-width: 500px;
     }
 
 
@@ -865,8 +895,10 @@ body::-webkit-scrollbar{
 }
 
 @media screen and (max-width : 576px) {
+
     body{
-        overflow:hidden;
+        overflow-x:hidden;
+        margin: 0;
     }
     :root{
         --body-fs : 12px;
@@ -912,15 +944,23 @@ body::-webkit-scrollbar{
         width: 100%;
     }
 
+    .reply-container{
+        padding-top: 40px;
+    }
+
     .bot-reply img{
         width: 64px;
     }
 
+
     .bot-text{
-        margin-right: 16px;
+        margin-right: 0;
+        padding: 16px;
+        max-width: 300px;
     }
     .user-text{
         margin-left: 16px;
+        max-width: 300px;
     }
 
     .user-reply-abbreviation{
