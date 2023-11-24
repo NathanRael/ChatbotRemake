@@ -441,8 +441,9 @@ body::-webkit-scrollbar{
 
 .btn-previous-container{
     position: fixed;
-    top: 16px;
+    top: 4px;
     left: 32px;
+    z-index: 2;
 }
 .btn-previous{
     color: var(--text-color);
@@ -468,7 +469,21 @@ body::-webkit-scrollbar{
     margin-bottom: 16px;
     margin-top: 16px;
 }
-
+.floatingInfo{
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-color);
+    font-size: var(--body-secondary-fs);
+    text-align: center;
+    /* background-color: var(--primary-color); */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: var(--secondary-color);
+    /* border-radius: 8px; */
+    padding: 8px;
+    width: 100%;
+}
 
 
 .user-reply-abbreviation, .bot-reply-abbreviation{

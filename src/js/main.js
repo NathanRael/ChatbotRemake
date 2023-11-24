@@ -240,10 +240,11 @@ class Message{
     async getWeather(userInput){
         const units = 'metric';
         const lang = 'en';
+        const apiKey = 'b275b33dffe936abc144bfe7c2ba6678'
         const cityName = userInput || 'Madagascar';
         console.log('city : ' + cityName);
         try{
-            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=b275b33dffe936abc144bfe7c2ba6678&units=${units}&lang=${lang}`);
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=${units}&lang=${lang}`);
             if(!response.ok) {
                 throw datas;
             }
@@ -299,14 +300,15 @@ ${splitedMess.map(mess => `
             }
     }
 
-    loadWeatherMessage(){
+    loadWeatherMessage(firstSent = false){
         const datas = this.weatherData || []; 
         let message;
         if (datas){
             $('.weatherReplyContainer').empty();
+            if (firstSent){
+                
+            }
             for ( let data of datas){   
-
-               
                 if (data.class === 'user-reply'){
                     message = data.message;
                     $('.weatherReplyContainer').append(`
@@ -393,6 +395,20 @@ $('#sendProbPrompt').click(()=>{
 })
 
 ///weather
+
+// if (window.location.href.includes('weatherAPI.html') && !localStorage.getItem('firstSent')){
+//     const message  = 'Welcome to the weather mode, please type a country or city name :'
+//     $('.weatherReplyContainer').append(`
+//         <li class="bot-reply">
+//             <img src="./src/image/logo.png" alt="" width="125px">
+//             <div class="bot-text">
+//                 ${message}
+//             </div>
+//         </li>
+//     `)
+//     localStorage.setItem('firstSent', message);
+// }
+
 $('#sendApiPrompt').click(function () {
     userPrompt = $('#ApiPromptInput').val().trim();
     apiPrompt.sendMessage('weatherMessage',false,true);
