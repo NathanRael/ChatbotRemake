@@ -145,14 +145,17 @@ $('.user-logout').click(() => {
 });
 
 $('.btn-clear-history').click(()=>{//clearing all history
-    localStorage.removeItem('mainMessage');
-    localStorage.removeItem('weatherMessage');
-    localStorage.removeItem('1');//removing the execute once localstorage
-    localStorage.removeItem('2');//removing the execute once localstorage
-    $('.probReplyContainer').empty() || alert("You should enter into the page");
-    $('.weatherReplyContainer').empty() || alert("You should enter into the page");
-    alert('History deleted');
-    window.location.href = '/mainInterface.html';
+    if (confirm("Do you want to delete all your history ?")){
+        localStorage.removeItem('mainMessage');
+        localStorage.removeItem('weatherMessage');
+        localStorage.removeItem('1');//removing the execute once localstorage
+        localStorage.removeItem('2');//removing the execute once localstorage
+        $('.probReplyContainer').empty() || alert("You should enter into the page");
+        $('.weatherReplyContainer').empty() || alert("You should enter into the page");
+        alert('History deleted');
+        window.location.href = '/mainInterface.html';
+    }
+
 })
 
 /***Input ****/
@@ -340,9 +343,10 @@ ${splitedMess.map(mess => `
         }
     }
 
-    async generateBotMessage(userMessage, from) {
+    async generateBotMessage(userMessage) {
         const apiUrl = 'https://api-fakell.x10.mx/v1/chat/completions/';
         let botMessage;
+        console.log('userMassage : ' + userMessage);
         const data = {
             model: "gpt-3.5-turbo",
             messages: [{"role": "user", "content": userMessage}],
@@ -354,7 +358,7 @@ ${splitedMess.map(mess => `
             headers : {
                 'Content-Type': 'application/json'
             },
-            body : JSON.stringify(data) 
+            body : JSON.stringify(data)
         }
 
         try{
@@ -365,15 +369,11 @@ ${splitedMess.map(mess => `
             }
             const responseData = await response.json();
 
-            console.log("data : " + responseData);
             botMessage = responseData.choices[0].message.content;
             console.log(botMessage);
-            if (from === 'mainMessage'){
-                this.saveData(botMessage, "mainMessage", "bot-reply")
-            }else if (from === 'weatherMessage'){
-                this.saveData(botMessage, "weatherMessage", "bot-reply")
-            }
-            this.renderBotMessage(botMessage, from);
+
+            this.saveData(botMessage, "mainMessage", "bot-reply")
+            this.renderBotMessage(botMessage);
         }catch (error){
             console.log('Error:', error.message);
             console.error('Full error object:', error);
@@ -463,19 +463,18 @@ $('#sendMainPrompt').click(function () {
     mainPrompt.sendMessage('main', userPrompt, 'mainMessage');
     first_sent = 'true';
     localStorage.setItem('firstSent', first_sent);
-
 });
 
 if (window.location.href.includes('problemSolverInterface')){
     if (!localStorage.getItem('1')){//execute once
-        datas = mainPrompt.loadData('mainMessage')[0].message || "hello";
+        datas = (mainPrompt.loadData('mainMessage') != null) ? mainPrompt.loadData('mainMessage')[0].message : "hello";
         if (datas){
-            mainPrompt.generateBotMessage(datas, 'mainMessage');
+            mainPrompt.generateBotMessage(datas);
         }
         localStorage.setItem('1', true);
     }else{//execute whether the user have already send  at least 1 message in the main Input
         if (first_sent === 'true'){
-            mainPrompt.generateBotMessage(userPrompt, 'mainMessage');
+            mainPrompt.generateBotMessage(userPrompt);
             first_sent = 'false';
             localStorage.setItem('firstSent', first_sent);
         }
@@ -487,7 +486,7 @@ if (window.location.href.includes('problemSolverInterface')){
 $('#sendProbPrompt').click(function (e) {
     userPrompt = $('#probPromptInput').val().trim();
     probPrompt.sendMessage('other', userPrompt, 'mainMessage');
-    probPrompt.generateBotMessage(userPrompt, 'mainMessage');
+    probPrompt.generateBotMessage(userPrompt);
 
 });
 
