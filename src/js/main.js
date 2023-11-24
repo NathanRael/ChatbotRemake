@@ -199,7 +199,6 @@ class Message{
     async generateBotMessage(messageName, userMessage){
         const apiUrl = 'https://api-fakell.x10.mx/v1/chat/completions/';
         let botMessage;
-        console.log('userMassage : ' + userMessage);
         const data = {
             model: "gpt-3.5-turbo",
             messages: [{"role": "user", "content": userMessage}],
@@ -229,7 +228,7 @@ class Message{
             console.error('Full error object:', error);
             alert('Error:' + (error.message.length > 50) ? error.message.slice(0, 50) : error.message );
         }finally{
-            if (window.location.pathname.includes('mainInterface.html')){
+            if (window.location.pathname.includes('maininterface')){
                 window.location.href = '/problemSolverInterface.html';
             }
             this.loadMainMessage();
@@ -242,7 +241,7 @@ class Message{
         const lang = 'en';
         const apiKey = 'b275b33dffe936abc144bfe7c2ba6678'
         const cityName = userInput || 'Madagascar';
-        console.log('city : ' + cityName);
+        // console.log('city : ' + cityName);
         try{
             const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=${units}&lang=${lang}`);
             if(!response.ok) {
@@ -266,7 +265,7 @@ class Message{
 
     loadMainMessage(){
         const datas = this.probSolverData;
-        console.log(datas);
+        // console.log(datas);
         let message;
         $('.probReplyContainer').empty();
             for ( let data of datas){
@@ -394,20 +393,6 @@ $('#sendProbPrompt').click(()=>{
     probPormpt.sendMessage('mainMessage');
 })
 
-///weather
-
-// if (window.location.href.includes('weatherAPI.html') && !localStorage.getItem('firstSent')){
-//     const message  = 'Welcome to the weather mode, please type a country or city name :'
-//     $('.weatherReplyContainer').append(`
-//         <li class="bot-reply">
-//             <img src="./src/image/logo.png" alt="" width="125px">
-//             <div class="bot-text">
-//                 ${message}
-//             </div>
-//         </li>
-//     `)
-//     localStorage.setItem('firstSent', message);
-// }
 
 $('#sendApiPrompt').click(function () {
     userPrompt = $('#ApiPromptInput').val().trim();
