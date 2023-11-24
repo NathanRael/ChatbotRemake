@@ -262,16 +262,15 @@ class Message{
     }
 
     loadMainMessage(){
-        
-        const datas = this.weatherData;
+        const datas = this.probSolverData;
+        console.log(datas);
         let message;
-        if (datas){
-            $('.weatherReplyContainer').empty();
-            for ( let data of datas){   
-                
+        $('.probReplyContainer').empty();
+            for ( let data of datas){
+                message = data.message;
+                console.log(message);   
                 if (data.class === 'user-reply'){
-                    message = data.message;
-                    $('.weatherReplyContainer').append(`
+                    $('.probReplyContainer').append(`
                         <li class="user-reply">
                             <p class="user-reply-abbreviation">R</p>
                             <div class="user-text">
@@ -280,43 +279,22 @@ class Message{
                         </li>
                     `)
                 }else if (data.class === 'bot-reply'){
-                    if (data.by === 'climat'){
-                        $('.weatherReplyContainer').append(`
-                            <li class="bot-reply">
-                                <img src="./src/image/logo.png" alt="" width="125px">
-                                <div class="bot-text">
-                                    Well, here is the weather today :
-                                </div>
-                                <div class="weather-card">
-                                    <p class="country-name">${data.message[0]}</p>
-                                    <div class="climat">
-                                        <img src="${data.message[1]}" alt="">
-                                        <p>${data.message[2]}</p>
-
-                                    </div>
-                                    <p class="temperature">Temp ${data.message[3]}°C</p>
-                                    <p class="humidity">Hudidity ${data.message[4]}%</p>
-                                </div>
-                                <div class="bot-text">
-                                    If you want to find another country's weather, you can type it
-                                </div>
-                            </li>
-
-                        `)
-                    }else{
-                        $('.weatherReplyContainer').append(`
-                            <li class="bot-reply">
-                                <img src="./src/image/logo.png" alt="" width="125px">
-                                <div class="bot-text">
-                                    ${message}
-                                </div>
-                            </li>
-                        `);
-                    }
+                    let splitedMess = message.split(/```/);
+    
+                    $('.probReplyContainer').append(`
+                        <li class="bot-reply">
+                            <img src="./src/image/logo.png" alt="" width="125px">
+                            <div class="bot-text">
+${splitedMess.map(mess => `
+<code class="">
+    ${mess}
+</code>
+`).join(' ')}  
+                            </div>
+                        </li>
+                    `);
                 }
             }
-        }
-
     }
 
     loadWeatherMessage(){
@@ -326,8 +304,9 @@ class Message{
             $('.weatherReplyContainer').empty();
             for ( let data of datas){   
 
-                message = data.message;
+               
                 if (data.class === 'user-reply'){
+                    message = data.message;
                     $('.weatherReplyContainer').append(`
                         <li class="user-reply">
                             <p class="user-reply-abbreviation">R</p>
