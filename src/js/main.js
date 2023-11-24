@@ -158,23 +158,31 @@ class Message{
     input;
     verifiedInput;
     probSolverData = this.loadData('mainMessage') || [];
+    weatherData = this.loadData('weatherMessage') || [];
 
     constructor(input){
         this.input = input;
         (this.probSolverData.length > 0) && this.loadMainMessage();
+        (this.weatherData.length > 0) && this.loadWeatherMessage();
     }
     
     sendMessage(messageName, isBot, isWeather){
         this.verifiedInput = this.securedInput();
         const USER_MESSAGE = this.verifiedInput;
         if ($(this.input).val() != ""){
-            console.log('Input : ' + this.verifiedInput);
             this.clearInput();
-    
-            this.saveData(messageName, USER_MESSAGE, `${isBot ? 'bot' : 'user'}-reply`, false);
-            this.generateBotMessage(messageName,USER_MESSAGE);
- 
-            this.loadMainMessage();
+            if (!isWeather){
+                this.saveData(messageName, USER_MESSAGE, `${isBot ? 'bot' : 'user'}-reply`, false);
+                this.generateBotMessage(messageName,USER_MESSAGE);
+     
+                this.loadMainMessage();
+                
+            }else{
+                this.saveData(messageName, USER_MESSAGE,`${isBot ? 'bot' : 'user'}-reply`, true);
+                this.getWeather();
+                this.loadWeatherMessage();
+            }
+
         }else{
             alert('Please, type something before sending the message');
         }
@@ -186,18 +194,6 @@ class Message{
 
     clearInput(){
         $(this.input).val('');
-    }
-
-    saveData(dataName, data, className, isWeather){
-        if (!isWeather){
-
-            this.probSolverData.push(
-                {class : className, message : data}
-            )
-            const jsonData = JSON.stringify(this.probSolverData)
-            localStorage.setItem(dataName, jsonData );
-        }
-
     }
 
     async generateBotMessage(messageName, userMessage){
@@ -227,31 +223,55 @@ class Message{
             const responseData = await response.json();
 
             botMessage = responseData.choices[0].message.content;
-            this.saveData(messageName, botMessage, 'bot-reply', false);
+            this.saveData(messageName, botMessage, 'bot-reply',false);
         }catch (error){
             console.log('Error:', error.message);
             console.error('Full error object:', error);
             alert('Error:' + (error.message.length > 50) ? error.message.slice(0, 50) : error.message );
         }finally{
-            if (!window.location.pathname.includes('problemSolverInterface.html')){
+            if (window.location.pathname.includes('mainInterface.html')){
                 window.location.href = '/problemSolverInterface.html';
             }
+            this.loadMainMessage();
         }
 
-        this.loadMainMessage();
+    }
+    
+    async getWeather(){
+        const units = 'metric';
+        const lang = 'en';
+        const cityName = this.getInputValue() || 'Madagascar';
+        console.log('city : ' + cityName);
+        try{
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=b275b33dffe936abc144bfe7c2ba6678&units=${units}&lang=${lang}`);
+            if(!response.ok) {
+                throw datas;
+            }
+            const datas = await response.json();
+            
+            const iconurl = "https://openweathermap.org/img/wn/" + datas.weather[0].icon + "@2x.png" || [];
+            let data = [
+                datas.name, iconurl, datas.weather[0].main, datas.main.temp, datas.main.humidity
+            ] 
+            this.saveData('weatherMessage',data,'bot-reply',true);
+        }catch(err){
+            alert('Err : ' + err.message);
+            console.log('Err : ' + err.message);
+        }
 
     }
 
     loadMainMessage(){
-        const datas = this.probSolverData;
-        console.log(datas);
+        
+        const datas = this.weatherData;
         let message;
-        $('.probReplyContainer').empty();
-            for ( let data of datas){
-                message = data.message;
-                console.log(message);   
+        if (datas){
+            $('.weatherReplyContainer').empty();
+            for ( let data of datas){   
+                
                 if (data.class === 'user-reply'){
-                    $('.probReplyContainer').append(`
+                    message = data.message;
+                    $('.weatherReplyContainer').append(`
                         <li class="user-reply">
                             <p class="user-reply-abbreviation">R</p>
                             <div class="user-text">
@@ -260,26 +280,114 @@ class Message{
                         </li>
                     `)
                 }else if (data.class === 'bot-reply'){
-                    let splitedMess = message.split(/```/);
-    
-                    $('.probReplyContainer').append(`
+                    if (data.by === 'climat'){
+                        $('.weatherReplyContainer').append(`
+                            <li class="bot-reply">
+                                <img src="./src/image/logo.png" alt="" width="125px">
+                                <div class="bot-text">
+                                    Well, here is the weather today :
+                                </div>
+                                <div class="weather-card">
+                                    <p class="country-name">${data.message[0]}</p>
+                                    <div class="climat">
+                                        <img src="${data.message[1]}" alt="">
+                                        <p>${data.message[2]}</p>
+
+                                    </div>
+                                    <p class="temperature">Temp ${data.message[3]}°C</p>
+                                    <p class="humidity">Hudidity ${data.message[4]}%</p>
+                                </div>
+                                <div class="bot-text">
+                                    If you want to find another country's weather, you can type it
+                                </div>
+                            </li>
+
+                        `)
+                    }else{
+                        $('.weatherReplyContainer').append(`
+                            <li class="bot-reply">
+                                <img src="./src/image/logo.png" alt="" width="125px">
+                                <div class="bot-text">
+                                    ${message}
+                                </div>
+                            </li>
+                        `);
+                    }
+                }
+            }
+        }
+
+    }
+
+    loadWeatherMessage(){
+        const datas = this.weatherData || []; 
+        let message;
+        if (datas){
+            $('.weatherReplyContainer').empty();
+            for ( let data of datas){   
+
+                message = data.message;
+                if (data.class === 'user-reply'){
+                    $('.weatherReplyContainer').append(`
+                        <li class="user-reply">
+                            <p class="user-reply-abbreviation">R</p>
+                            <div class="user-text">
+                                ${message}
+                            </div>
+                        </li>
+                    `)
+                }else if (data.class === 'bot-reply'){
+                    $('.weatherReplyContainer').append(`
                         <li class="bot-reply">
                             <img src="./src/image/logo.png" alt="" width="125px">
                             <div class="bot-text">
-${splitedMess.map(mess => `
-<code class="">
-    ${mess}
-</code>
-`).join(' ')}  
+                                Well, here is the weather today :
+                            </div>
+                            <div class="weather-card">
+                                <p class="country-name">${data.message[0]}</p>
+                                <div class="climat">
+                                    <img src="${data.message[1]}" alt="">
+                                    <p>${data.message[2]}</p>
+
+                                </div>
+                                <p class="temperature">Temp ${data.message[3]}°C</p>
+                                <p class="humidity">Hudidity ${data.message[4]}%</p>
+                            </div>
+                            <div class="bot-text">
+                                If you want to find another country's weather, you can type it
                             </div>
                         </li>
-                    `);
+
+                    `)
                 }
             }
+        }
+    }
+
+    saveData(dataName, data, className, isWeather){
+        let jsonData;
+        if (!isWeather){
+
+            this.probSolverData.push(
+                {class : className, message : data}
+            )
+            jsonData = JSON.stringify(this.probSolverData)
+            localStorage.setItem(dataName, jsonData );
+        }else{
+            this.weatherData.push(
+                {class : className, message : data}
+            );
+            jsonData = JSON.stringify(this.weatherData)
+            localStorage.setItem(dataName, jsonData);
+        }
+
     }
 
     loadData(dataName){
         return JSON.parse(localStorage.getItem(dataName));
+    }
+    getInputValue(){
+        return $(this.input).val().trim();
     }
 
 
@@ -287,6 +395,14 @@ ${splitedMess.map(mess => `
 
 let mainPormpt = new Message('#mainPromptInput');
 let probPormpt = new Message('#probPromptInput');
+let apiPrompt = new Message('#ApiPromptInput');
+// Render suggestionPrompt inside the input
+$('.prompt-example').click(function () {
+    const prompt = $(this).text().trim() || null;
+    if (prompt) {
+        $('.user-input').val(prompt);
+    }
+});
 
 $('#sendMainPrompt').click(()=>{
     mainPormpt.sendMessage('mainMessage');
@@ -294,3 +410,9 @@ $('#sendMainPrompt').click(()=>{
 $('#sendProbPrompt').click(()=>{
     probPormpt.sendMessage('mainMessage');
 })
+
+///weather
+$('#sendApiPrompt').click(function () {
+    userPrompt = $('#ApiPromptInput').val().trim();
+    apiPrompt.sendMessage('weatherMessage',false,true);
+});
