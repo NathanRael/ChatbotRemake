@@ -919,6 +919,15 @@ body::-webkit-scrollbar{
         --body-fs : 12px;
     }
 
+    .btn-previous-container{
+        left: 8px;
+        top: 0;
+    }
+
+    .weather-card{
+        margin: 0;
+    }
+
     .close-form{
         display: block;
     }
