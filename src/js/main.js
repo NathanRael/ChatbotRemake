@@ -1,4 +1,4 @@
-import config from "./config.js";   
+// import config from "./config.js";   
 /******Toggle index popup **********/
 
 
@@ -199,7 +199,7 @@ class Message{
     }
 
     async generateBotMessage(messageName, userMessage){
-        const apiUrl = config.botApiUrl;
+        const apiUrl ='https://api-fakell.x10.mx/v1/chat/completions/';
         let botMessage;
         const data = {
             model: "gpt-3.5-turbo",
@@ -241,7 +241,7 @@ class Message{
     async getWeather(userInput){
         const units = 'metric';
         const lang = 'en';
-        const apiKey = config.apiKey;
+        const apiKey = 'b275b33dffe936abc144bfe7c2ba6678';
         const cityName = userInput || 'Madagascar';
         // console.log('city : ' + cityName);
         try{
