@@ -1,4 +1,6 @@
+import config from "../../config";
 /******Toggle index popup **********/
+
 
 class ToggleMainButton {
     is_popup_toggled = false;
@@ -197,7 +199,7 @@ class Message{
     }
 
     async generateBotMessage(messageName, userMessage){
-        const apiUrl = 'https://api-fakell.x10.mx/v1/chat/completions/';
+        const apiUrl = config.botApiUrl;
         let botMessage;
         const data = {
             model: "gpt-3.5-turbo",
@@ -228,7 +230,7 @@ class Message{
             console.error('Full error object:', error);
             alert('Error:' + (error.message.length > 50) ? error.message.slice(0, 50) : error.message );
         }finally{
-            if (window.location.pathname.includes('maininterface')){
+            if (window.location.pathname.includes('maininterface') ||window.location.pathname.includes('mainInterface')){
                 window.location.href = '/problemSolverInterface.html';
             }
             this.loadMainMessage();
@@ -239,7 +241,7 @@ class Message{
     async getWeather(userInput){
         const units = 'metric';
         const lang = 'en';
-        const apiKey = 'b275b33dffe936abc144bfe7c2ba6678'
+        const apiKey = config.apiKey;
         const cityName = userInput || 'Madagascar';
         // console.log('city : ' + cityName);
         try{
@@ -270,7 +272,6 @@ class Message{
         $('.probReplyContainer').empty();
             for ( let data of datas){
                 message = data.message;
-                console.log(message);   
                 if (data.class === 'user-reply'){
                     $('.probReplyContainer').append(`
                         <li class="user-reply">
@@ -379,6 +380,7 @@ let mainPormpt = new Message('#mainPromptInput');
 let probPormpt = new Message('#probPromptInput');
 let apiPrompt = new Message('#ApiPromptInput');
 // Render suggestionPrompt inside the input
+// Handling click and keypress events for elements with class 'prompt-example'
 $('.prompt-example').click(function () {
     const prompt = $(this).text().trim() || null;
     if (prompt) {
@@ -386,15 +388,21 @@ $('.prompt-example').click(function () {
     }
 });
 
-$('#sendMainPrompt').click(()=>{
+
+// Handling click and keypress events for an element with id 'sendMainPrompt'
+$('#sendMainPrompt').click(() => {
     mainPormpt.sendMessage('mainMessage');
-})
-$('#sendProbPrompt').click(()=>{
+});
+
+
+// Handling click and keypress events for an element with id 'sendProbPrompt'
+$('#sendProbPrompt').click(() => {
     probPormpt.sendMessage('mainMessage');
-})
+});
 
-
+// Handling click and keypress events for an element with id 'sendApiPrompt'
 $('#sendApiPrompt').click(function () {
     userPrompt = $('#ApiPromptInput').val().trim();
-    apiPrompt.sendMessage('weatherMessage',false,true);
+    apiPrompt.sendMessage('weatherMessage', false, true);
 });
+
