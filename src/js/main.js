@@ -1,5 +1,4 @@
-import API_KEY from "./apikey.js";
-import BOT_URL from './botUrl.js';
+import { BOT_URL, API_KEY } from "./config.js";
 
 /******Toggle index popup **********/
 
