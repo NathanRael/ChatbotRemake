@@ -1,4 +1,6 @@
-// import config from "./config.js";   
+import API_KEY from "./apikey.js";
+import BOT_URL from './botUrl.js';
+
 /******Toggle index popup **********/
 
 
@@ -199,7 +201,7 @@ class Message{
     }
 
     async generateBotMessage(messageName, userMessage){
-        const apiUrl ='https://api-fakell.x10.mx/v1/chat/completions/';
+        const apiUrl = BOT_URL;
         let botMessage;
         const data = {
             model: "gpt-3.5-turbo",
@@ -241,7 +243,7 @@ class Message{
     async getWeather(userInput){
         const units = 'metric';
         const lang = 'en';
-        const apiKey = 'b275b33dffe936abc144bfe7c2ba6678';
+        const apiKey = API_KEY;
         const cityName = userInput || 'Madagascar';
         // console.log('city : ' + cityName);
         try{
@@ -379,8 +381,7 @@ ${splitedMess.map(mess => `
 let mainPormpt = new Message('#mainPromptInput');
 let probPormpt = new Message('#probPromptInput');
 let apiPrompt = new Message('#ApiPromptInput');
-// Render suggestionPrompt inside the input
-// Handling click and keypress events for elements with class 'prompt-example'
+
 $('.prompt-example').click(function () {
     const prompt = $(this).text().trim() || null;
     if (prompt) {
@@ -388,21 +389,17 @@ $('.prompt-example').click(function () {
     }
 });
 
-
-// Handling click and keypress events for an element with id 'sendMainPrompt'
 $('#sendMainPrompt').click(() => {
     mainPormpt.sendMessage('mainMessage');
 });
 
 
-// Handling click and keypress events for an element with id 'sendProbPrompt'
 $('#sendProbPrompt').click(() => {
     probPormpt.sendMessage('mainMessage');
 });
 
-// Handling click and keypress events for an element with id 'sendApiPrompt'
 $('#sendApiPrompt').click(function () {
-    userPrompt = $('#ApiPromptInput').val().trim();
+
     apiPrompt.sendMessage('weatherMessage', false, true);
 });
 
