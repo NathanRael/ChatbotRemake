@@ -24,3 +24,6 @@ Note that the project is still under developpement
 ## Support
 
 Your support and your help would be appreciate
+
+## Deployment
+This is availaible on [Netlify](https://nathanrael-chatbot.netlify.app)
