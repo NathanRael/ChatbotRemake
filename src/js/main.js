@@ -1,7 +1,16 @@
 // import { BOT_URL, API_KEY } from "./config.js";
 
-/******Toggle index popup **********/
+/***Animations */
+$(document).ready(function () {
+    const location = window.location.pathname.toLowerCase();
+    
+    if (location.includes('mainInterface'.toLowerCase())){
+        
+    }
+});
 
+
+/******Toggle index popup **********/
 
 class ToggleMainButton {
     is_popup_toggled = false;
@@ -201,7 +210,13 @@ class Message{
 
     async generateBotMessage(messageName, userMessage){
         const apiUrl = 'https://api-fakell.x10.mx/v1/chat/completions/';
+
+        let waitMessage = $('.waitMessageText');
+        let waitMessageText = 'Thinking';
+        waitMessage.text(waitMessageText);
+        let waitInterval;
         let botMessage;
+
         const data = {
             model: "gpt-3.5-turbo",
             messages: [{"role": "user", "content": userMessage}],
@@ -217,12 +232,25 @@ class Message{
         }
 
         try{
+            $('.waitMessage').fadeIn(500);
+            waitInterval = setInterval( () => {
+                waitMessageText += '.';
+                
+                if (waitMessageText === 'Thinking....'){
+                    waitMessageText = 'Thinking'
+                }
+                waitMessage.text(waitMessageText);
+            }, 500)
 
             const response = await fetch(apiUrl, requestOptions);
             if (!response.ok){
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
+            
             const responseData = await response.json();
+
+            clearInterval(waitInterval);
+            $('.waitMessage').fadeOut(500);
 
             botMessage = responseData.choices[0].message.content;
             this.saveData(messageName, botMessage, 'bot-reply',false);
@@ -244,7 +272,6 @@ class Message{
         const lang = 'en';
         const apiKey = 'b275b33dffe936abc144bfe7c2ba6678';
         const cityName = userInput || 'Madagascar';
-        // console.log('city : ' + cityName);
         try{
             const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=${units}&lang=${lang}`);
             if(!response.ok) {
@@ -268,13 +295,15 @@ class Message{
 
     loadMainMessage(){
         const datas = this.probSolverData;
+        const container = $('.probReplyContainer');
         // console.log(datas);
         let message;
-        $('.probReplyContainer').empty();
+        container.empty();
+        if (datas){
             for ( let data of datas){
                 message = data.message;
                 if (data.class === 'user-reply'){
-                    $('.probReplyContainer').append(`
+                    container.append(`
                         <li class="user-reply">
                             <p class="user-reply-abbreviation">R</p>
                             <div class="user-text">
@@ -285,7 +314,7 @@ class Message{
                 }else if (data.class === 'bot-reply'){
                     let splitedMess = message.split(/```/);
     
-                    $('.probReplyContainer').append(`
+                    container.append(`
                         <li class="bot-reply">
                             <img src="./src/image/logo.png" alt="" width="125px">
                             <div class="bot-text">
@@ -299,20 +328,25 @@ ${splitedMess.map(mess => `
                     `);
                 }
             }
+            this.scrollContent('problemSolverInterface', container);
+
+        }
+           
     }
 
     loadWeatherMessage(firstSent = false){
-        const datas = this.weatherData || []; 
+        const datas = this.weatherData || [];
+        const container =  $('.weatherReplyContainer');
         let message;
         if (datas){
-            $('.weatherReplyContainer').empty();
+            container.empty();
             if (firstSent){
                 
             }
             for ( let data of datas){   
                 if (data.class === 'user-reply'){
                     message = data.message;
-                    $('.weatherReplyContainer').append(`
+                    container.append(`
                         <li class="user-reply">
                             <p class="user-reply-abbreviation">R</p>
                             <div class="user-text">
@@ -321,7 +355,7 @@ ${splitedMess.map(mess => `
                         </li>
                     `)
                 }else if (data.class === 'bot-reply'){
-                    $('.weatherReplyContainer').append(`
+                    container.append(`
                         <li class="bot-reply">
                             <img src="./src/image/logo.png" alt="" width="125px">
                             <div class="bot-text">
@@ -345,6 +379,7 @@ ${splitedMess.map(mess => `
                     `)
                 }
             }
+            this.scrollContent('weatherAPI', container);
         }
     }
 
@@ -372,6 +407,14 @@ ${splitedMess.map(mess => `
     }
     getInputValue(){
         return $(this.input).val().trim();
+    }
+
+    scrollContent(location, container){
+        if (container.html() != '' && window.location.href.toLowerCase().includes(location.toLowerCase())){
+            container.animate({
+                scrollTop: container[0].scrollHeight
+            }, 'slow');   
+        } 
     }
 
 

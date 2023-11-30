@@ -69,7 +69,9 @@ body::-webkit-scrollbar{
     border-radius: 32px;
     font-family: 'roboto-medium';
     text-decoration: none;
+    transition: background-color 0.5s ease-in-out;
 }
+
 
 .btn-outlined{
     background-color: transparent;
@@ -263,6 +265,7 @@ body::-webkit-scrollbar{
     padding: 16px 32px;
     margin-bottom: 16px;
     width: max-content;
+    transition: all 0.5s ease-in-out;
 }
 
 .prompt-example p{
@@ -281,6 +284,7 @@ body::-webkit-scrollbar{
     background-color: var(--tertiary-color);
     border-radius: 32px;
     width: 950px;
+    
 }
 .user-input{
     width: 100%;
@@ -302,6 +306,7 @@ body::-webkit-scrollbar{
     border-radius: 32px;
     width: 52px;
     height: 52px;
+    transition: background-color 0.5s ease-in-out;
 }
 
 .user-input::placeholder{
@@ -389,6 +394,7 @@ body::-webkit-scrollbar{
     height: 52px;
     border-radius: 32px;
     box-shadow: 0 6px 24 rgba(0, 0, 0, 0.2);
+    transition: background-color 0.5s ease-in-out;
 
 }
 
@@ -438,6 +444,31 @@ body::-webkit-scrollbar{
 }
 
 /*********ProblemSolver*************/
+.waitMessage{
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100vh;
+    transform: translate(-50%, -50%);
+    color: var(--text-color);
+    font-size: var(--body-fs);
+    z-index: 3;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.waitMessage .waitMessageText{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--secondary-color);
+    padding: 8px 16px;
+    border-radius: 16px;
+}
 
 .btn-previous-container{
     position: fixed;
@@ -813,6 +844,18 @@ body::-webkit-scrollbar{
     padding: 8px 0;
     color: var(--text-color);
     width: 100%;
+}
+
+/****transition and animation ****/
+.btn:hover, .user-input-container button:hover, .user-item-container i:hover{
+    background-color: transparent;
+}
+
+.btn-outlined:hover{
+    background-color: var(--secondary-color);
+}
+.prompt-example:hover{
+    column-gap: 16px;
 }
 
 
