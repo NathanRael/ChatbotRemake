@@ -16,6 +16,7 @@
         "link-name": "off"
       }
     ],
-    "disown-opener": "off"
+    "disown-opener": "off",
+    "button-type": "off"
   }
 }
