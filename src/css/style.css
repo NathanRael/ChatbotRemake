@@ -116,13 +116,18 @@ body::-webkit-scrollbar{
 }
 
 .hero-lead{
+    /* display: none; */
     font-family: 'roboto-regular';
     font-size: var(--leads-fs);
     color: var(--text-color);
 }
 
+.hero-text-container p{
+    display: none;
+}
+
 .hero-btn-contrainer{
-    display: flex;
+    display: none;
     width: 100%;
     justify-content: start;
 }
@@ -456,8 +461,8 @@ body::-webkit-scrollbar{
     font-size: var(--body-fs);
     z-index: 3;
     background-color: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
 }
 
 .waitMessage .waitMessageText{
@@ -731,6 +736,7 @@ body::-webkit-scrollbar{
     border: solid 1px var(--success-color);
     margin: 0 auto;
     margin-bottom: 24px;
+    transition: background-color 0.5s ease-in-out;
 
 }
 
@@ -847,7 +853,7 @@ body::-webkit-scrollbar{
 }
 
 /****transition and animation ****/
-.btn:hover, .user-input-container button:hover, .user-item-container i:hover{
+.btn:hover, .user-input-container button:hover, .user-item-container i:hover, .btn-clear-history:hover, .setting-btn-profile:hover{
     background-color: transparent;
 }
 
