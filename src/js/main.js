@@ -17,8 +17,7 @@ $('.btn-login').click(()=>{
 
 $('.btn-signup').click(()=>{
     signupBtn.animate();
-})
-;
+});
 
 $('.close-form').click(function (){
     let closeForm = new ToggleMainButton($(this).parent(0), 'fade-field' );

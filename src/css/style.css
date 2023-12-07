@@ -1,12 +1,12 @@
 /**************root*********************/
 :root{
-    --title-fs : 2.125em;
+    --title-fs : 2.125rem;
     --body-fs : 16px;
-    --leads-fs : 1.25em;
-    --sub-heading : 1.625em;
-    --link-fs : 1em;
-    --input-fs : 1em;
-    --body-secondary-fs : 1em;
+    --leads-fs : 1.25rem;
+    --sub-heading : 1.625rem;
+    --link-fs : 0.9rem;
+    --input-fs : 1rem;
+    --body-secondary-fs : 1rem;
 
     --primary-color : #2F414F;
     --secondary-color : #3894A3;
@@ -20,6 +20,9 @@
     --black-color : #121414;
 
 }
+
+.success{color: var(--success-color);}
+.alert{color: var(--alert-color);}
 
 body{
     font-size: var(--body-fs);
@@ -142,6 +145,10 @@ body::-webkit-scrollbar{
 }
 
 /***login & signup ***/
+.message{
+    font-size: var(--link-fs);
+}
+
 .close-form{
     cursor: pointer;
     display: none;
@@ -204,7 +211,7 @@ body::-webkit-scrollbar{
 .input-group .input-item{
     display: flex;
     flex-direction: column;
-    row-gap: 16px;
+    row-gap: 8px;
 
 }
 
@@ -225,8 +232,8 @@ body::-webkit-scrollbar{
 .link{
     font-size: var(--link-fs);
     color: var(--secondary-color);
-    text-decoration: none;
-    margin-left: 24px;
+    /* text-decoration: none; */
+    /* margin-left: 24px; */
 }
 
 .btn-group{

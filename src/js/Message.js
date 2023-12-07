@@ -80,7 +80,6 @@ export default class Message{
             }
             
             const responseData = await response.json();
-
             clearInterval(waitInterval);
             $('.waitMessage').fadeOut(500);
 
@@ -135,7 +134,7 @@ export default class Message{
         container.empty();
         if (datas){
             for ( let data of datas){
-                message = data.message;
+                message = data?.message;
                 if (data.class === 'user-reply'){
                     container.append(`
                         <li class="user-reply">
@@ -146,6 +145,7 @@ export default class Message{
                         </li>
                     `)
                 }else if (data.class === 'bot-reply'){
+                    
                     let splitedMess = message.split(/```/);
     
                     container.append(`

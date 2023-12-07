@@ -1,3 +1,4 @@
+
 export default class ToggleMainButton {
     is_popup_toggled = false;
     popupName;
@@ -18,6 +19,7 @@ export default class ToggleMainButton {
         }, 500);
         this.is_popup_toggled = isToggled;
         this.toggleFadeField();
+        $('body').css('overflow', 'hidden');
     }
 
     toggleFadeField() {
@@ -26,7 +28,10 @@ export default class ToggleMainButton {
             .click(() => {
                 this.togglePopup(this.popupName, '-524px', false);
                 $(this.fadeField).hide();
+                $('body').css('overflow', 'scroll');
             });
         }
     }
 }
+
+
