@@ -93,7 +93,7 @@ export default class Message{
             $('.waitMessage').fadeOut(500);
         }finally{
             if (window.location.pathname.includes('maininterface') ||window.location.pathname.includes('mainInterface')){
-                window.location.href = '/problemSolverInterface.html';
+                window.location.href = '/problemSolverInterface.php';
             }
             this.loadMainMessage();
         }

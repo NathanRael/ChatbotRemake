@@ -1,18 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head class="head">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./src/frameworks/bootstrap-icons.css">
-    <script src="./src/frameworks/jquery-3.7.1.min.js"></script>
-    <link rel="stylesheet" href="./src/css/style.css">
-    <script src="/src/frameworks/purify.min.js"></script>
-    <script src="./src/js/main.js" type="module" defer></script>
-
-    <title>ChatBot 2.0</title>
-</head>
+<?php
+    require 'src/components/header.php';
+?>
 <!-- 
     - Create  different js files for each class     OK
     - Check out mysql tuto in w3Schools             OK
@@ -65,7 +53,7 @@
             </div>
         </div>
         <div class="btn-group">
-            <a href="/mainInterface.html" class="btn">Login</a>
+            <a href="/mainInterface.php" class="btn">Login</a>
             <!-- <span class="Or">Or</span>
             <button class="btn-outlined ">Sign Up</button> -->
         </div>
@@ -88,30 +76,14 @@
             </div>
         </div>
         <div class="btn-group">
-            <a href="/mainInterface.html" class="btn ">Sign Up</a>
+            <a href="/mainInterface.php" class="btn ">Sign Up</a>
             <!-- <span class="Or">Or</span>
             <button class="btn-outlined">Login</button> -->
         </div>
         <i class="bi bi-x-lg close-form"></i>
     </div>
     <!----End Popup--->
-    <Footer class="footer">
-        <small class="copyright">Copyright 2023 Natanael Ralaivoavy</small>
-        <div class="footer-icon-container">
-            <div class="icon-item">
-                <i class="bi bi-envelope-at-fill"></i>
-                <a href="mailto:Ralaivoavy.natanael@gmail.com">Ralaivoavy.natanael@gmail.com</a>
-            </div>
-            <div class="icon-item">
-                <i class="bi bi-github"></i>
-                <a href="https://github.com/NathanRael/" target="_blank">NathanRael</a>
-            </div>
-            <div class="icon-item">
-                <i class="bi bi-facebook"></i>
-                <a  href="https://www.facebook.com/profile.php?id=100087957505977" target="_blank">Ralaivoavy Natanael</a>
-            </div>
-        </div>
-    </Footer>
+    <?php require 'src/components/footer.php' ?>
 
 </body>
 

@@ -1,53 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./src/frameworks/bootstrap-icons.css">
-    <script src="./src/frameworks/jquery-3.7.1.min.js" ></script>
-    <link rel="stylesheet" href="./src/css/style.css">
-    <script src="./src/js/main.js"  type="module" defer></script>
-    <script src="/src/frameworks/purify.min.js"></script>
-
-    <title>Chatting</title>
-</head>
-<body>
-    <p class="floatingInfo">
-        Welcomme to the chatBot mode, please, type something ...
-    </p>
-    <div class="btn-previous-container">
-        <a href="/mainInterface.html" class="btn-previous"><i class="bi bi-arrow-left"></i></a>     
-    </div>
-    <div class="waitMessage">
-        <p class="waitMessageText">
-            Thinking ...
-        </p>
-    </div>
-    <ul class="reply-container probReplyContainer"></ul>
-
-    
-    <form class="user-input-container bottom-input">
-        <input type="text" class="user-input" id="probPromptInput" placeholder="Type something ..." autocomplete="off">
-        <button id="sendProbPrompt" type="submit"><i class="bi bi-arrow-right"></i></button>
-    </form>
-    <section class="moving-part">
-        <div class="user-item-container">
-            <p class="user-abbreviation">R</p>
-            <i class="bi bi-gear user-setting"></i>
-            <i class="bi bi-box-arrow-right user-logout"></i>
-            <button class="new-chat btn">
-                <i class="bi bi-plus-lg user-item-icon"></i>
-                    New chat
-            </button>
-            <button class="chat-history btn">
-                <i class="bi bi-clock-history user-item-icon"></i>
-                    Chat history
-            </button>
-        </div>
-    </section>
-    <!-- Components -->
-    <div class="popup-bg"></div>
+<!-- Components -->
+<div class="popup-bg"></div>
     <div class="setting-popup">
         <div class="setting-header">
             <h2 class="setting-header-text">Setting</h2>
@@ -123,5 +75,3 @@
             </div>
             
         </div>
-</body>
-</html>

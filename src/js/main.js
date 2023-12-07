@@ -47,7 +47,7 @@ $('.new-chat').click(() => {
 });
 
 $('.user-logout').click(() => {
-    window.location.href = '/index.html';
+    window.location.href = '/index.php';
 });
 
 $('.btn-clear-history').click(()=>{ //clearing all history
@@ -57,7 +57,7 @@ $('.btn-clear-history').click(()=>{ //clearing all history
         $('.probReplyContainer').empty() || alert("You should enter into the page");
         $('.weatherReplyContainer').empty() || alert("You should enter into the page");
         alert('History deleted');
-        window.location.href = '/mainInterface.html';
+        window.location.href = '/mainInterface.php';
     }
 
 })
