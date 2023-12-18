@@ -5,7 +5,7 @@ Remake of the last chatBot web app
 ## Features
 
 - New UI/UX design
-- GPT 3.5 API
+- Simple ChatBot API
 - Weather API
 - Responsive design
 
