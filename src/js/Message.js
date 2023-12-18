@@ -1,4 +1,3 @@
-import fetchJSON from "./fetchJSON";
 
 export default class Message{
     input;
@@ -43,27 +42,23 @@ export default class Message{
     }
 
     async generateBotMessage(messageName, userMessage){
-        const apiUrl = 'https://api-fakell.x10.mx/v1/chat/completions/';
-
         let waitMessage = $('.waitMessageText');
         let waitMessageText = 'Thinking';
         waitMessage.text(waitMessageText);
         let waitInterval;
         let botMessage;
 
-        const data = {
-            model: "gpt-3.5-turbo",
-            messages: [{"role": "user", "content": userMessage}],
-            stream: false
-        }
+        const encodedMessage = encodeURIComponent(userMessage)
+
+        const baseUrl =`https://ai-chatbot.p.rapidapi.com/chat/free?message=${encodedMessage}&uid=user1`;
 
         const requestOptions = {
-            method : 'POST',
-            headers : {
-                'Content-Type': 'application/json'
-            },
-            body : JSON.stringify(data)
-        }
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': '4ae5a2a2bbmshb500dc2948fd0f6p145c25jsned87d2ba520e',
+                'X-RapidAPI-Host': 'ai-chatbot.p.rapidapi.com'
+            }
+        };
 
         try{
             $('.waitMessage').fadeIn(500);
@@ -76,16 +71,16 @@ export default class Message{
                 waitMessage.text(waitMessageText);
             }, 500)
 
-            const response = await fetch(apiUrl, requestOptions);
+            const response = await fetch(baseUrl, requestOptions);
             if (!response.ok){
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             
             const responseData = await response.json();
+
             clearInterval(waitInterval);
             $('.waitMessage').fadeOut(500);
-
-            botMessage = responseData.choices[0].message.content;
+            botMessage = responseData.chatbot.response
             this.saveData(messageName, botMessage, 'bot-reply',false);
         }catch (error){
             console.log('Error:', error.message);
@@ -101,6 +96,65 @@ export default class Message{
         }
 
     }
+    // async generateBotMessage(messageName, userMessage){
+    //     const apiUrl = 'https://api-fakell.x10.mx/v1/chat/completions/';
+
+    //     let waitMessage = $('.waitMessageText');
+    //     let waitMessageText = 'Thinking';
+    //     waitMessage.text(waitMessageText);
+    //     let waitInterval;
+    //     let botMessage;
+
+    //     const data = {
+    //         model: "gpt-3.5-turbo",
+    //         messages: [{"role": "user", "content": userMessage}],
+    //         stream: false
+    //     }
+
+    //     const requestOptions = {
+    //         method : 'POST',
+    //         headers : {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body : JSON.stringify(data)
+    //     }
+
+    //     try{
+    //         $('.waitMessage').fadeIn(500);
+    //         waitInterval = setInterval( () => {
+    //             waitMessageText += '.';
+                
+    //             if (waitMessageText === 'Thinking....'){
+    //                 waitMessageText = 'Thinking'
+    //             }
+    //             waitMessage.text(waitMessageText);
+    //         }, 500)
+
+    //         const response = await fetch(apiUrl, requestOptions);
+    //         if (!response.ok){
+    //             throw new Error(`HTTP error! status: ${response.status}`);
+    //         }
+            
+    //         const responseData = await response.json();
+    //         clearInterval(waitInterval);
+    //         $('.waitMessage').fadeOut(500);
+
+    //         botMessage = responseData.choices[0].message.content;
+    //         this.saveData(messageName, botMessage, 'bot-reply',false);
+    //     }catch (error){
+    //         console.log('Error:', error.message);
+    //         console.error('Full error object:', error);
+    //         alert('Error:' + (error.message.length > 50) ? error.message.slice(0, 50) : error.message );
+    //         clearInterval(waitInterval);
+    //         $('.waitMessage').fadeOut(500);
+    //     }finally{
+    //         if (window.location.pathname.includes('maininterface') ||window.location.pathname.includes('mainInterface')){
+    //             window.location.href = '/problemSolverInterface.html';
+    //         }
+    //         this.loadMainMessage();
+    //     }
+
+    // }
     
     async getWeather(userInput){
         const units = 'metric';
