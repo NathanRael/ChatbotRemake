@@ -1,3 +1,5 @@
+import fetchJSON from "./fetchJSON";
+
 export default class Message{
     input;
     verifiedInput;

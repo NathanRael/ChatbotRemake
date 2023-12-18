@@ -2,6 +2,9 @@ import ToggleMainButton from "./ToggleMainButton.js";
 import Message from "./Message.js";
 import MovingPart from "./MovingPart.js";
 import startAnimation from "./animation.js";
+import preventUser from "./preventM.js";
+
+
 
 $(document).ready(() =>{
     startAnimation();
