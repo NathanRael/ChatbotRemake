@@ -50,14 +50,25 @@ export default class Message{
 
         const encodedMessage = encodeURIComponent(userMessage)
 
-        const baseUrl =`https://ai-chatbot.p.rapidapi.com/chat/free?message=${encodedMessage}&uid=user1`;
+        const baseUrl = 'https://robomatic-ai.p.rapidapi.com/api';
 
         const requestOptions = {
-            method: 'GET',
+            method: 'POST',
             headers: {
+                'content-type': 'application/x-www-form-urlencoded',
                 'X-RapidAPI-Key': '4ae5a2a2bbmshb500dc2948fd0f6p145c25jsned87d2ba520e',
-                'X-RapidAPI-Host': 'ai-chatbot.p.rapidapi.com'
-            }
+                'X-RapidAPI-Host': 'robomatic-ai.p.rapidapi.com'
+            },
+            body: new URLSearchParams({
+                in: encodedMessage,
+                op: 'in',
+                cbot: '1',
+                SessionID: 'RapidAPI1',
+                cbid: '1',
+                key: 'RHMN5hnQ4wTYZBGCF3dfxzypt68rVP',
+                ChatSource: 'RapidAPI',
+                duration: '1'
+            })
         };
 
         try{
@@ -77,10 +88,10 @@ export default class Message{
             }
             
             const responseData = await response.json();
-
+            console.log(responseData)
             clearInterval(waitInterval);
             $('.waitMessage').fadeOut(500);
-            botMessage = responseData.chatbot.response
+            botMessage = responseData.out
             this.saveData(messageName, botMessage, 'bot-reply',false);
         }catch (error){
             console.log('Error:', error.message);
@@ -96,65 +107,7 @@ export default class Message{
         }
 
     }
-    // async generateBotMessage(messageName, userMessage){
-    //     const apiUrl = 'https://api-fakell.x10.mx/v1/chat/completions/';
 
-    //     let waitMessage = $('.waitMessageText');
-    //     let waitMessageText = 'Thinking';
-    //     waitMessage.text(waitMessageText);
-    //     let waitInterval;
-    //     let botMessage;
-
-    //     const data = {
-    //         model: "gpt-3.5-turbo",
-    //         messages: [{"role": "user", "content": userMessage}],
-    //         stream: false
-    //     }
-
-    //     const requestOptions = {
-    //         method : 'POST',
-    //         headers : {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body : JSON.stringify(data)
-    //     }
-
-    //     try{
-    //         $('.waitMessage').fadeIn(500);
-    //         waitInterval = setInterval( () => {
-    //             waitMessageText += '.';
-                
-    //             if (waitMessageText === 'Thinking....'){
-    //                 waitMessageText = 'Thinking'
-    //             }
-    //             waitMessage.text(waitMessageText);
-    //         }, 500)
-
-    //         const response = await fetch(apiUrl, requestOptions);
-    //         if (!response.ok){
-    //             throw new Error(`HTTP error! status: ${response.status}`);
-    //         }
-            
-    //         const responseData = await response.json();
-    //         clearInterval(waitInterval);
-    //         $('.waitMessage').fadeOut(500);
-
-    //         botMessage = responseData.choices[0].message.content;
-    //         this.saveData(messageName, botMessage, 'bot-reply',false);
-    //     }catch (error){
-    //         console.log('Error:', error.message);
-    //         console.error('Full error object:', error);
-    //         alert('Error:' + (error.message.length > 50) ? error.message.slice(0, 50) : error.message );
-    //         clearInterval(waitInterval);
-    //         $('.waitMessage').fadeOut(500);
-    //     }finally{
-    //         if (window.location.pathname.includes('maininterface') ||window.location.pathname.includes('mainInterface')){
-    //             window.location.href = '/problemSolverInterface.html';
-    //         }
-    //         this.loadMainMessage();
-    //     }
-
-    // }
     
     async getWeather(userInput){
         const units = 'metric';
